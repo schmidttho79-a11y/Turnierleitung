@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="de"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#003f73">
+<meta name="description" content="Turnierplanung und Zeitnahme für die Turnierleitung.">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Turnierleitung">
+<link rel="manifest" href="./manifest.webmanifest">
+<link rel="apple-touch-icon" href="./icon-192.png">
+<title>Turnierleitung – Germania Ginnheim</title>
+<link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+<header><div class="header-inner"><img class="logo" src="./logo.jpg" alt="Vereinslogo Germania Ginnheim"><div><h1 id="tournamentTitleDisplay">Jugendturnier Germania Ginnheim</h1></div></div></header>
+<div class="app-shell-nav" role="tablist" aria-label="Bereich auswählen">
+  <button class="shell-tab active" type="button" id="plannerShellTab" role="tab" aria-selected="true">Turnierplan</button>
+  <button class="shell-tab" type="button" id="timeShellTab" role="tab" aria-selected="false">Zeitnahme</button>
+</div>
+<main>
+<section class="module-view" id="plannerModule">
+  <div class="view-switcher" role="tablist" aria-label="Ansicht auswählen">
+    <button class="view-tab active" type="button" id="participantTab" data-view="participant" role="tab" aria-selected="true">Teilnehmeransicht</button>
+    <button class="view-tab" type="button" id="adminTab" data-view="admin" role="tab" aria-selected="false">Turnierleitung</button>
+  </div>
+
+  <section class="app-view" id="participantView">
+    <div class="view-note"><div><strong>Teilnehmeransicht</strong><small>Diese Ansicht ist für Eltern, Trainer und Spieler gedacht. Einstellungen und Ergebnispflege sind hier nicht möglich.</small></div></div>
+
+    <section class="readonly-grid" aria-label="Turnierinformationen">
+      <div class="readonly-card"><small>Start</small><strong id="participantStart">09:00 Uhr</strong></div>
+      <div class="readonly-card"><small>Spieldauer</small><strong id="participantDuration">10 Minuten</strong></div>
+      <div class="readonly-card"><small>Pause</small><strong id="participantBreak">5 Minuten</strong></div>
+      <div class="readonly-card"><small>Felder</small><strong id="participantFields">2</strong></div>
+      <div class="readonly-card"><small>Modus</small><strong id="participantMode">Hinrunde</strong></div>
+      <div class="readonly-card"><small>Umfang</small><strong id="participantGames">15 Spiele</strong><small id="participantEnd">Ende 11:10 Uhr</small></div>
+    </section>
+
+    <section class="panel">
+      <div class="controls"><label>Meine Mannschaft<select id="participantTeamFilter"><option value="all">Alle Mannschaften</option></select></label></div>
+      <div class="button-row"><button class="secondary" type="button" id="participantResetBtn">Filter zurücksetzen</button></div>
+    </section>
+
+    <div class="section-title"><h2>Spielplan</h2><span class="hint" id="participantCountHint">0 Spiele sichtbar</span></div>
+    <section class="cards" id="participantCards"><div class="empty-state">Noch kein Spielplan erstellt.</div></section>
+
+    <section class="standings-panel hidden" id="participantStandingsSection">
+      <div class="section-title"><h2>Tabelle</h2><span class="hint">automatisch aus vollständigen Ergebnissen</span></div>
+      <div class="panel table-wrap"><table class="standings-table"><thead><tr><th>#</th><th>Mannschaft</th><th class="num">Sp</th><th class="num">S</th><th class="num">U</th><th class="num">N</th><th class="num">Tore</th><th class="num">Diff.</th><th class="num">Pkt.</th></tr></thead><tbody id="participantStandingsBody"></tbody></table></div>
+    </section>
+
+    <div class="section-title"><h2>Tabellarische Übersicht</h2><span class="hint">horizontal scrollbar auf Mobilgeräten</span></div>
+    <section class="panel table-wrap"><table id="participantScheduleTable"><thead id="participantScheduleHead"></thead><tbody></tbody></table></section>
+  </section>
+
+  <section class="app-view hidden" id="adminView">
+    <div class="view-note"><div><strong>Turnierleitung</strong><small>Lokaler Prototyp: Der Ansichtswechsel ist noch kein Login. Die echte Zugriffssicherung folgt mit der Online-Version.</small></div></div>
+
+    <div class="view-heading"><h2>Turnier verwalten</h2><span class="admin-label">Bearbeiten</span></div>
+    <section class="summary-grid" aria-label="Turniereinstellungen">
+      <div class="summary-card"><small>Start</small><strong><input id="startTimeInput" type="time" value="09:00" step="300" aria-label="Start-Uhrzeit auswählen"><span class="input-unit">Uhr</span></strong></div>
+      <div class="summary-card"><small>Spieldauer</small><strong><input id="durationInput" type="number" min="1" step="1" value="10" aria-label="Spieldauer in Minuten"><span class="input-unit">Minuten</span></strong></div>
+      <div class="summary-card"><small>Pause</small><strong><input id="breakInput" type="number" min="0" step="1" value="5" aria-label="Pause in Minuten"><span class="input-unit">Minuten</span></strong></div>
+      <div class="summary-card"><small>Spiele</small><strong id="gamesSummary">0 Spiele</strong><small id="endSummary">Ende --:-- Uhr</small></div>
+    </section>
+
+    <section class="panel">
+      <h2>Turnier einrichten</h2>
+      <p class="hint">Änderungen werden automatisch in Spielplan und Teilnehmeransicht übernommen.</p>
+      <div class="settings-grid">
+        <div class="setting-box"><label>Turniertitel<input id="tournamentTitleInput" type="text" maxlength="80" value="Jugendturnier Germania Ginnheim" aria-label="Turniertitel"></label><p class="status-note">Der Titel wird oben auf der Seite und in der gespeicherten Teilnehmeransicht angezeigt.</p></div>
+      </div>
+      <div class="team-editor" id="teamEditor" aria-label="Teilnehmende Mannschaften">
+        <div class="team-row"><input class="team-input" type="text" maxlength="40" value="Germania Ginnheim I" aria-label="Mannschaft 1"><button class="icon-btn remove-team-btn" type="button" aria-label="Mannschaft entfernen">Entfernen</button></div>
+        <div class="team-row"><input class="team-input" type="text" maxlength="40" value="Germania Ginnheim II" aria-label="Mannschaft 2"><button class="icon-btn remove-team-btn" type="button" aria-label="Mannschaft entfernen">Entfernen</button></div>
+        <div class="team-row"><input class="team-input" type="text" maxlength="40" value="Tempo" aria-label="Mannschaft 3"><button class="icon-btn remove-team-btn" type="button" aria-label="Mannschaft entfernen">Entfernen</button></div>
+        <div class="team-row"><input class="team-input" type="text" maxlength="40" value="Nieder-Eschbach I" aria-label="Mannschaft 4"><button class="icon-btn remove-team-btn" type="button" aria-label="Mannschaft entfernen">Entfernen</button></div>
+        <div class="team-row"><input class="team-input" type="text" maxlength="40" value="Nieder-Eschbach II" aria-label="Mannschaft 5"><button class="icon-btn remove-team-btn" type="button" aria-label="Mannschaft entfernen">Entfernen</button></div>
+        <div class="team-row"><input class="team-input" type="text" maxlength="40" value="Concordia Eschersheim" aria-label="Mannschaft 6"><button class="icon-btn remove-team-btn" type="button" aria-label="Mannschaft entfernen">Entfernen</button></div>
+      </div>
+      <div class="button-row"><button class="secondary" type="button" id="addTeamBtn">+ Mannschaft hinzufügen</button></div>
+
+      <div class="settings-grid">
+        <div class="setting-box"><label>Anzahl Spielfelder<input id="fieldCountInput" type="number" min="1" max="10" step="1" value="2" aria-label="Anzahl Spielfelder"></label></div>
+        <div class="setting-box"><label>Spielmodus<select id="gameModeSelect"><option value="single">Hinrunde</option><option value="double">Hin- und Rückrunde</option></select></label></div>
+        <div class="setting-box hidden" id="roundBreakBox"><label>Zusätzliche Pause vor der Rückrunde<input id="roundBreakInput" type="number" min="0" max="240" step="1" value="0" aria-label="Zusätzliche Pause vor der Rückrunde in Minuten"></label><p class="status-note">Zusätzlich zur normalen Pause zwischen zwei Spielslots.</p></div>
+        <div class="setting-box"><label>Tore erfassen und Tabelle anzeigen<select id="scoreTrackingInput"><option value="no" selected>Nein</option><option value="yes">Ja</option></select></label><p class="status-note">Bei „Nein“ bleibt die Teilnehmeransicht ein reiner Spielplan.</p></div>
+      </div>
+
+      <div class="button-row"><button class="secondary" type="button" id="downloadPrefilledBtn">Teilnehmeransicht speichern</button></div><p class="status-note">Erzeugt eine eigenständige Offline-Datei nur mit der Teilnehmeransicht. Turniereinstellungen und Ergebnispflege sind darin nicht enthalten.</p>
+      <p class="status-note">Speichert Konfiguration und eingetragene Ergebnisse als lokale HTML-Datei.</p>
+    </section>
+
+    <section class="panel">
+      <div class="controls"><label>Team filtern<select id="adminTeamFilter"><option value="all">Alle Mannschaften</option></select></label></div>
+      <div class="button-row"><button class="secondary" type="button" id="adminResetBtn">Filter zurücksetzen</button></div>
+    </section>
+
+    <div class="section-title"><h2>Ergebnisse pflegen</h2><span class="hint" id="adminCountHint">0 Spiele sichtbar</span></div>
+    <p class="admin-score-note" id="adminScoreNote">Die Torerfassung ist aktuell deaktiviert.</p>
+    <section class="cards" id="adminCards"><div class="empty-state">Noch kein Spielplan erstellt.</div></section>
+
+    <section class="standings-panel hidden" id="adminStandingsSection">
+      <div class="section-title"><h2>Tabelle</h2><span class="hint">Kontrollansicht der Turnierleitung</span></div>
+      <div class="panel table-wrap"><table class="standings-table"><thead><tr><th>#</th><th>Mannschaft</th><th class="num">Sp</th><th class="num">S</th><th class="num">U</th><th class="num">N</th><th class="num">Tore</th><th class="num">Diff.</th><th class="num">Pkt.</th></tr></thead><tbody id="adminStandingsBody"></tbody></table></div>
+    </section>
+  </section>
+
+</section>
+
+<section class="module-view hidden" id="timekeepingModule">
+  <div class="view-heading"><h2>Zeitnahme</h2><span class="admin-label">Spielleitung</span></div>
+  <div class="view-note timekeeping-intro"><div><strong>Stoppuhr und Timer</strong><small>Stoppuhr und Timer sind bewusst unabhängig vom Turnierplan nutzbar.</small></div></div>
+  <section class="timekeeping-card" aria-label="Zeitnahme">
+    <div class="timekeeping-mode-switcher" role="tablist" aria-label="Zeitmodus auswählen">
+      <button class="timekeeping-mode-btn active" id="clockStopwatchModeBtn" type="button" role="tab" aria-selected="true">Stoppuhr</button>
+      <button class="timekeeping-mode-btn" id="clockTimerModeBtn" type="button" role="tab" aria-selected="false">Timer</button>
+    </div>
+
+    <div class="timekeeping-settings hidden" id="clockTimerSettings">
+      <label>Minuten<input id="clockTimerMinutes" type="number" min="0" max="999" step="1" value="5" inputmode="numeric"></label>
+      <label>Sekunden<input id="clockTimerSeconds" type="number" min="0" max="59" step="1" value="0" inputmode="numeric"></label>
+    </div>
+
+    <span class="timekeeping-label" id="clockDisplayLabel">Minuten : Sekunden</span>
+    <div class="timekeeping-display" id="clockDisplay" role="timer" aria-live="off">00:00</div>
+
+    <div class="timekeeping-actions">
+      <button id="clockStartBtn" type="button">Start</button>
+      <button id="clockStopBtn" type="button" disabled>Stop</button>
+      <button id="clockResetBtn" type="button">Reset</button>
+    </div>
+    <div class="timekeeping-status" id="clockStatus" aria-live="polite">Bereit</div>
+  </section>
+</section>
+</main>
+<script type="application/json" id="prefilledState">{}</script>
+<script src="./app-1.js"></script>
+<script src="./app-2a.js"></script>
+<script src="./app-2b.js"></script>
+<script src="./app-2c.js"></script>
+<script src="./app-2d.js"></script>
+
+<script>
+if ('serviceWorker' in navigator && location.protocol.indexOf('http')===0) {
+  window.addEventListener('load', function(){
+    navigator.serviceWorker.register('./service-worker.js').catch(function(err){console.warn('Service Worker konnte nicht registriert werden.',err);});
+  });
+}
+</script>
+
+</body></html>
