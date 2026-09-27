@@ -70,9 +70,31 @@ function downloadPrefilledTemplate(){
     var title=clone.querySelector('title');
     if(title)title.textContent=tournamentTitle()+' – Teilnehmeransicht';
 
-    /* Nur der Teamfilter bleibt interaktiv. Turnierdaten und Ergebnisse sind nicht editierbar. */
+    /* Teamfilter und lokale Ergebniserfassung bleiben im Export interaktiv. */
     var participantScript=document.createElement('script');
-    participantScript.textContent="(function(){'use strict';var select=document.getElementById('participantTeamFilter'),reset=document.getElementById('participantResetBtn'),cards=document.getElementById('participantCards'),tbody=document.querySelector('#participantScheduleTable tbody'),hint=document.getElementById('participantCountHint');function apply(){var team=select?select.value:'all',visible=0;if(cards){cards.querySelectorAll('.match-card').forEach(function(card){var ok=team==='all'||card.dataset.home===team||card.dataset.away===team;card.classList.toggle('hidden',!ok);if(ok)visible++;});cards.querySelectorAll('.slot-block').forEach(function(block){var has=Array.prototype.some.call(block.querySelectorAll('.match-card'),function(card){return !card.classList.contains('hidden');});block.classList.toggle('hidden',!has);});}if(tbody)tbody.querySelectorAll('tr').forEach(function(row){var ok=team==='all'||row.dataset.home===team||row.dataset.away===team;row.classList.toggle('hidden',!ok);});if(hint)hint.textContent=visible+(visible===1?' Spiel sichtbar':' Spiele sichtbar');}if(select)select.addEventListener('change',apply);if(reset)reset.addEventListener('click',function(){if(select)select.value='all';apply();});apply();})();";
+    participantScript.textContent=`(function(){
+'use strict';
+var select=document.getElementById('participantTeamFilter');
+var reset=document.getElementById('participantResetBtn');
+var cards=document.getElementById('participantCards');
+var tbody=document.querySelector('#participantScheduleTable tbody');
+var hint=document.getElementById('participantCountHint');
+var standingsBody=document.getElementById('participantStandingsBody');
+
+function esc(v){var m={'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'};return String(v).replace(/[&<>'"]/g,function(c){return m[c];});}
+function parseScore(v){if(v==='')return null;var n=parseInt(v,10);if(isNaN(n)||n<0)return null;return Math.min(99,n);}
+function rowForKey(key){if(!tbody)return null;var rows=tbody.querySelectorAll('tr');for(var i=0;i<rows.length;i++){if(rows[i].dataset.key===key)return rows[i];}return null;}
+function scoreFromCard(card){var h=card.querySelector('[data-score-side="home"]'),a=card.querySelector('[data-score-side="away"]');return {home:h?parseScore(h.value):null,away:a?parseScore(a.value):null,homeInput:h,awayInput:a};}
+function updateCard(card){var score=scoreFromCard(card);if(score.homeInput)score.homeInput.value=score.home===null?'':score.home;if(score.awayInput)score.awayInput.value=score.away===null?'':score.away;var complete=score.home!==null&&score.away!==null;var text=complete?score.home+' : '+score.away:'– : –';var display=card.querySelector('.public-result');if(display)display.textContent=text;var row=rowForKey(card.dataset.key||'');if(row){var cell=row.querySelector('.result-cell');if(cell)cell.textContent=text;}return score;}
+function updateStandings(){if(!standingsBody||!cards)return;var stats={};cards.querySelectorAll('.match-card').forEach(function(card){var home=card.dataset.home,away=card.dataset.away;if(!stats[home])stats[home]={team:home,played:0,w:0,d:0,l:0,gf:0,ga:0,pts:0};if(!stats[away])stats[away]={team:away,played:0,w:0,d:0,l:0,gf:0,ga:0,pts:0};var score=scoreFromCard(card);if(score.home===null||score.away===null)return;var h=stats[home],a=stats[away];h.played++;a.played++;h.gf+=score.home;h.ga+=score.away;a.gf+=score.away;a.ga+=score.home;if(score.home>score.away){h.w++;a.l++;h.pts+=3;}else if(score.home<score.away){a.w++;h.l++;a.pts+=3;}else{h.d++;a.d++;h.pts++;a.pts++;}});var arr=Object.keys(stats).map(function(k){return stats[k];});arr.sort(function(a,b){return b.pts-a.pts||((b.gf-b.ga)-(a.gf-a.ga))||b.gf-a.gf||a.team.localeCompare(b.team,'de');});standingsBody.innerHTML=arr.map(function(s,i){var diff=s.gf-s.ga;return '<tr><td>'+(i+1)+'</td><td>'+esc(s.team)+'</td><td class="num">'+s.played+'</td><td class="num">'+s.w+'</td><td class="num">'+s.d+'</td><td class="num">'+s.l+'</td><td class="num">'+s.gf+':'+s.ga+'</td><td class="num">'+(diff>0?'+':'')+diff+'</td><td class="num"><strong>'+s.pts+'</strong></td></tr>';}).join('');}
+function apply(){var team=select?select.value:'all',visible=0;if(cards){cards.querySelectorAll('.match-card').forEach(function(card){var ok=team==='all'||card.dataset.home===team||card.dataset.away===team;card.classList.toggle('hidden',!ok);if(ok)visible++;});cards.querySelectorAll('.slot-block').forEach(function(block){var has=Array.prototype.some.call(block.querySelectorAll('.match-card'),function(card){return !card.classList.contains('hidden');});block.classList.toggle('hidden',!has);});}if(tbody)tbody.querySelectorAll('tr').forEach(function(row){var ok=team==='all'||row.dataset.home===team||row.dataset.away===team;row.classList.toggle('hidden',!ok);});if(hint)hint.textContent=visible+(visible===1?' Spiel sichtbar':' Spiele sichtbar');}
+if(cards){cards.addEventListener('input',function(e){if(e.target.classList.contains('score-input')){var card=e.target.closest('.match-card');if(card){updateCard(card);updateStandings();}}});cards.addEventListener('change',function(e){if(e.target.classList.contains('score-input')){var card=e.target.closest('.match-card');if(card){updateCard(card);updateStandings();}}});}
+if(select)select.addEventListener('change',apply);
+if(reset)reset.addEventListener('click',function(){if(select)select.value='all';apply();});
+if(cards){cards.querySelectorAll('.match-card').forEach(updateCard);}
+updateStandings();
+apply();
+})();`;
     if(cloneBody)cloneBody.appendChild(participantScript);
 
     var htmlContent='<!doctype html>\n'+clone.outerHTML;
