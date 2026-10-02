@@ -34,11 +34,11 @@ function buildSchedulePdf(){
   var pageW=841.89,pageH=595.28,margin=28,tableW=pageW-margin*2,tableTop=88,headerH=24,rowH=24,rowsPerPage=18;
   var showResult=scoreTrackingEnabled(),base=normalizeTime(),dur=clampInt(durationInput.value,1,240,10),pause=clampInt(breakInput.value,0,240,5);
   var columns=showResult?
-    [{label:'Nr.',w:32},{label:'Start',w:50},{label:'Ende',w:50},{label:'Feld',w:50},{label:'Mannschaft A',w:225},{label:'Mannschaft B',w:225},{label:'Anstoß',w:90},{label:'Ergebnis',w:64}]:
-    [{label:'Nr.',w:32},{label:'Start',w:50},{label:'Ende',w:50},{label:'Feld',w:50},{label:'Mannschaft A',w:245},{label:'Mannschaft B',w:245},{label:'Anstoß',w:114}];
+    [{label:'Nr.',w:32},{label:'Start',w:52},{label:'Ende',w:52},{label:'Feld',w:55},{label:'Mannschaft A',w:260},{label:'Mannschaft B',w:260},{label:'Ergebnis',w:76}]:
+    [{label:'Nr.',w:32},{label:'Start',w:52},{label:'Ende',w:52},{label:'Feld',w:55},{label:'Mannschaft A',w:298},{label:'Mannschaft B',w:298}];
   var widthSum=columns.reduce(function(sum,c){return sum+c.w;},0),scale=tableW/widthSum;
   columns.forEach(function(c){c.w*=scale;});
-  var rows=currentMatches.map(function(m){var start=matchStartMinute(m,base,dur,pause),end=start+dur;var row=[String(m.no),fmt(start),fmt(end),'Feld '+m.field,m.home,m.away,kickoffTeamName(m)];if(showResult)row.push(resultText(m));return row;});
+  var rows=currentMatches.map(function(m){var start=matchStartMinute(m,base,dur,pause),end=start+dur;var row=[String(m.no),fmt(start),fmt(end),'Feld '+m.field,m.home,m.away];if(showResult)row.push(resultText(m));return row;});
   var pageCount=Math.max(1,Math.ceil(rows.length/rowsPerPage)),streams=[];
   function yFromTop(top){return pageH-top;}
   function textCmd(x,baselineTop,font,size,value,gray){return (gray===undefined?'0':gray)+' g BT /'+font+' '+size+' Tf 1 0 0 1 '+x.toFixed(2)+' '+yFromTop(baselineTop).toFixed(2)+' Tm '+pdfWinAnsiHex(value)+' Tj ET\n';}
