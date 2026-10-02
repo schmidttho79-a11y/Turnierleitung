@@ -31,31 +31,71 @@ function pdfFitText(value,width,fontSize){
   return text.length<=max?text:text.slice(0,Math.max(1,max-2))+'..';
 }
 function buildSchedulePdf(){
-  var pageW=841.89,pageH=595.28,margin=28,tableW=pageW-margin*2,tableTop=88,headerH=24,rowH=24,rowsPerPage=18;
-  var showResult=scoreTrackingEnabled(),base=normalizeTime(),dur=clampInt(durationInput.value,1,240,10),pause=clampInt(breakInput.value,0,240,5);
+  var pageW=841.89,pageH=595.28,margin=28,tableW=pageW-margin*2,headerH=24,rowH=24;
+  var showResult=scoreTrackingEnabled(),base=normalizeTime(),dur=clampInt(durationInput.value,1,240,10),pause=clampInt(breakInput.value,0,240,5),teams=getTeams();
   var columns=showResult?
     [{label:'Nr.',w:32},{label:'Start',w:52},{label:'Ende',w:52},{label:'Feld',w:55},{label:'Mannschaft A',w:260},{label:'Mannschaft B',w:260},{label:'Ergebnis',w:76}]:
     [{label:'Nr.',w:32},{label:'Start',w:52},{label:'Ende',w:52},{label:'Feld',w:55},{label:'Mannschaft A',w:298},{label:'Mannschaft B',w:298}];
   var widthSum=columns.reduce(function(sum,c){return sum+c.w;},0),scale=tableW/widthSum;
   columns.forEach(function(c){c.w*=scale;});
   var rows=currentMatches.map(function(m){var start=matchStartMinute(m,base,dur,pause),end=start+dur;var row=[String(m.no),fmt(start),fmt(end),'Feld '+m.field,m.home,m.away];if(showResult)row.push(resultText(m));return row;});
-  var pageCount=Math.max(1,Math.ceil(rows.length/rowsPerPage)),streams=[];
+
+  var infoTop=82,infoGap=14,leftW=tableW*0.67,rightW=tableW-leftW-infoGap;
+  var teamCols=teams.length>7?2:1,teamRows=Math.max(1,Math.ceil(teams.length/teamCols));
+  var infoH=Math.max(72,34+teamRows*14);
+  var firstTableTop=infoTop+infoH+18,nextTableTop=88,usableBottom=pageH-34;
+  var firstCapacity=Math.max(1,Math.floor((usableBottom-firstTableTop-headerH)/rowH));
+  var nextCapacity=Math.max(1,Math.floor((usableBottom-nextTableTop-headerH)/rowH));
+  var remaining=Math.max(0,rows.length-firstCapacity);
+  var pageCount=1+(remaining?Math.ceil(remaining/nextCapacity):0),streams=[];
+
   function yFromTop(top){return pageH-top;}
   function textCmd(x,baselineTop,font,size,value,gray){return (gray===undefined?'0':gray)+' g BT /'+font+' '+size+' Tf 1 0 0 1 '+x.toFixed(2)+' '+yFromTop(baselineTop).toFixed(2)+' Tm '+pdfWinAnsiHex(value)+' Tj ET\n';}
   function fillRect(x,top,w,h,r,g,b){return r+' '+g+' '+b+' rg '+x.toFixed(2)+' '+(pageH-top-h).toFixed(2)+' '+w.toFixed(2)+' '+h.toFixed(2)+' re f\n';}
   function strokeRect(x,top,w,h,gray){return (gray===undefined?'0.76':gray)+' G 0.6 w '+x.toFixed(2)+' '+(pageH-top-h).toFixed(2)+' '+w.toFixed(2)+' '+h.toFixed(2)+' re S\n';}
+
+  function drawInfoBlock(){
+    var out='',rightX=margin+leftW+infoGap;
+    out+=fillRect(margin,infoTop,leftW,infoH,'0.965','0.980','0.995');
+    out+=strokeRect(margin,infoTop,leftW,infoH,'0.78');
+    out+=textCmd(margin+10,infoTop+18,'F2',10,'Teilnehmende Vereine',0.12);
+
+    var colW=(leftW-20-(teamCols-1)*12)/teamCols;
+    teams.forEach(function(team,i){
+      var col=teamCols===1?0:Math.floor(i/teamRows),row=teamCols===1?i:(i%teamRows);
+      var x=margin+10+col*(colW+12),y=infoTop+36+row*14;
+      out+=textCmd(x,y,'F1',8.8,'- '+pdfFitText(team,colW-4,8.8),0);
+    });
+
+    out+=fillRect(rightX,infoTop,rightW,infoH,'0.975','0.985','0.995');
+    out+=strokeRect(rightX,infoTop,rightW,infoH,'0.78');
+    out+=textCmd(rightX+10,infoTop+18,'F2',10,'Rahmendaten',0.12);
+    out+=textCmd(rightX+10,infoTop+40,'F1',9.5,'Spieldauer: '+dur+' Minuten',0);
+    out+=textCmd(rightX+10,infoTop+58,'F1',9.5,'Pause: '+pause+' Minuten',0);
+    return out;
+  }
+
+  function rowsForPage(pageIndex){
+    if(pageIndex===0)return rows.slice(0,firstCapacity);
+    var from=firstCapacity+(pageIndex-1)*nextCapacity;
+    return rows.slice(from,from+nextCapacity);
+  }
+
   for(var p=0;p<pageCount;p++){
-    var stream='';
+    var stream='',tableTop=p===0?firstTableTop:nextTableTop;
     stream+=textCmd(margin,32,'F2',18,pdfFitText(tournamentTitle(),tableW,18),0);
     stream+=textCmd(margin,52,'F1',10,'Datum: '+formatTournamentDate(tournamentDateInput.value),0.28);
-    stream+=textCmd(margin,72,'F2',11,'Spielplan',0.20);
+    stream+=textCmd(margin,72,'F2',11,p===0?'Spielplan':'Spielplan - Fortsetzung',0.20);
+    if(p===0)stream+=drawInfoBlock();
+
     var x=margin;
     columns.forEach(function(c){stream+=fillRect(x,tableTop,c.w,headerH,'0','0.247','0.451');stream+=strokeRect(x,tableTop,c.w,headerH,'0.35');stream+=textCmd(x+5,tableTop+16,'F2',8.5,c.label,1);x+=c.w;});
-    var pageRows=rows.slice(p*rowsPerPage,(p+1)*rowsPerPage);
+    var pageRows=rowsForPage(p);
     pageRows.forEach(function(row,ri){var top=tableTop+headerH+ri*rowH;x=margin;if(ri%2===1)stream+=fillRect(margin,top,tableW,rowH,'0.968','0.982','1');columns.forEach(function(c,ci){stream+=strokeRect(x,top,c.w,rowH,'0.78');stream+=textCmd(x+5,top+16,'F1',8.5,pdfFitText(row[ci],c.w,8.5),0);x+=c.w;});});
     stream+=textCmd(margin,pageH-14,'F1',8,'Seite '+(p+1)+' von '+pageCount,0.40);
     streams.push(stream);
   }
+
   var objects=[];
   objects[1]='<< /Type /Catalog /Pages 2 0 R >>';
   objects[3]='<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>';
