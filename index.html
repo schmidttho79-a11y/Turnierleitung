@@ -69,7 +69,8 @@
       <h2>Turnier einrichten</h2>
       <p class="hint">Änderungen werden automatisch in Spielplan und Teilnehmeransicht übernommen.</p>
       <div class="settings-grid">
-        <div class="setting-box"><label>Turniertitel<input id="tournamentTitleInput" type="text" maxlength="80" value="Jugendturnier Germania Ginnheim" aria-label="Turniertitel"></label><p class="status-note">Der Titel wird oben auf der Seite und in der gespeicherten Teilnehmeransicht angezeigt.</p></div>
+        <div class="setting-box"><label>Turniertitel<input id="tournamentTitleInput" type="text" maxlength="80" value="Jugendturnier Germania Ginnheim" aria-label="Turniertitel"></label><p class="status-note">Der Titel wird oben auf der Seite, in der Teilnehmeransicht und in der Verband-PDF angezeigt.</p></div>
+        <div class="setting-box"><label>Turnierdatum<input id="tournamentDateInput" type="date" aria-label="Turnierdatum"></label><p class="status-note">Das Datum wird für die Spielplan-PDF des Verbands verwendet.</p></div>
       </div>
       <div class="team-editor" id="teamEditor" aria-label="Teilnehmende Mannschaften">
         <div class="team-row"><input class="team-input" type="text" maxlength="40" value="Germania Ginnheim I" aria-label="Mannschaft 1"><button class="icon-btn remove-team-btn" type="button" aria-label="Mannschaft entfernen">Entfernen</button></div>
@@ -88,8 +89,7 @@
         <div class="setting-box"><label>Tore erfassen und Tabelle anzeigen<select id="scoreTrackingInput"><option value="no" selected>Nein</option><option value="yes">Ja</option></select></label><p class="status-note">Bei „Nein“ bleibt die Teilnehmeransicht ein reiner Spielplan.</p></div>
       </div>
 
-      <div class="button-row"><button class="secondary" type="button" id="downloadPrefilledBtn">Teilnehmeransicht speichern</button></div><p class="status-note">Erzeugt eine eigenständige Offline-Datei nur mit der Teilnehmeransicht. Turniereinstellungen und Ergebnispflege sind darin nicht enthalten.</p>
-      <p class="status-note">Speichert Konfiguration und eingetragene Ergebnisse als lokale HTML-Datei.</p>
+      <div class="button-row"><button class="secondary" type="button" id="downloadPrefilledBtn">Teilnehmeransicht + PDF speichern</button></div><p class="status-note">Erzeugt zwei Dateien: die eigenständige Offline-Teilnehmeransicht als HTML und einen tabellarischen Spielplan als A4-PDF im Querformat für den Versand an den Verband.</p>
     </section>
 
     <section class="panel">

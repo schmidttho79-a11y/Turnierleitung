@@ -6,6 +6,7 @@ var participantTab=document.getElementById('participantTab');
 var adminTab=document.getElementById('adminTab');
 var tournamentTitleInput=document.getElementById('tournamentTitleInput');
 var tournamentTitleDisplay=document.getElementById('tournamentTitleDisplay');
+var tournamentDateInput=document.getElementById('tournamentDateInput');
 var startTimeInput=document.getElementById('startTimeInput');
 var durationInput=document.getElementById('durationInput');
 var breakInput=document.getElementById('breakInput');
