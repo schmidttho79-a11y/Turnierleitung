@@ -71,15 +71,21 @@ function buildSchedulePdf(){
   return new TextEncoder().encode(pdf);
 }
 function downloadSchedulePdf(){
-  var bytes=buildSchedulePdf(),blob=new Blob([bytes],{type:'application/pdf'}),anchor=document.createElement('a');
-  anchor.download='Spielplan_'+safeFilePart(tournamentTitle())+'_'+tournamentDateInput.value+'.pdf';
-  anchor.href=URL.createObjectURL(blob);anchor.style.display='none';document.body.appendChild(anchor);anchor.click();
-  setTimeout(function(){URL.revokeObjectURL(anchor.href);if(anchor.parentNode)anchor.parentNode.removeChild(anchor);},1500);
+  try{
+    if(!tournamentDateInput||!tournamentDateInput.value){alert('Bitte zuerst das Turnierdatum auswählen.');if(tournamentDateInput)tournamentDateInput.focus();return;}
+    if(!currentMatches.length){alert('Bitte zuerst einen Spielplan mit mindestens einem Spiel erstellen.');return;}
+    var bytes=buildSchedulePdf(),blob=new Blob([bytes],{type:'application/pdf'}),anchor=document.createElement('a');
+    anchor.download='Spielplan_'+safeFilePart(tournamentTitle())+'_'+tournamentDateInput.value+'.pdf';
+    anchor.href=URL.createObjectURL(blob);anchor.style.display='none';document.body.appendChild(anchor);anchor.click();
+    setTimeout(function(){URL.revokeObjectURL(anchor.href);if(anchor.parentNode)anchor.parentNode.removeChild(anchor);},1500);
+  }catch(error){
+    console.error(error);
+    alert('Die PDF-Datei konnte nicht erzeugt werden.');
+  }
 }
 
 function downloadPrefilledTemplate(){
   try{
-    if(!tournamentDateInput||!tournamentDateInput.value){alert('Bitte zuerst das Turnierdatum auswählen.');if(tournamentDateInput)tournamentDateInput.focus();return;}
     if(!currentMatches.length){alert('Bitte zuerst einen Spielplan mit mindestens einem Spiel erstellen.');return;}
     /* Exportiert nur die aktuell gerenderte Teilnehmeransicht als statische Offline-Datei. */
     var exportLogoDataUrl='';
@@ -187,7 +193,6 @@ apply();
     anchor.style.display='none';
     document.body.appendChild(anchor);
     anchor.click();
-    downloadSchedulePdf();
     setTimeout(function(){URL.revokeObjectURL(anchor.href);if(anchor.parentNode)anchor.parentNode.removeChild(anchor);},1000);
   }catch(error){
     console.error(error);
@@ -210,6 +215,7 @@ adminCards.addEventListener('change',function(e){if(e.target.classList.contains(
 participantTeamFilter.addEventListener('change',applyParticipantFilter);adminTeamFilter.addEventListener('change',applyAdminFilter);
 participantResetBtn.addEventListener('click',function(){participantTeamFilter.value='all';applyParticipantFilter();});adminResetBtn.addEventListener('click',function(){adminTeamFilter.value='all';applyAdminFilter();});
 downloadPrefilledBtn.addEventListener('click',downloadPrefilledTemplate);
+downloadPdfBtn.addEventListener('click',downloadSchedulePdf);
 
 
 applyInitialState();renderAll();switchView('admin');

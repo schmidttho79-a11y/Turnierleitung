@@ -18,6 +18,7 @@ var scoreTrackingInput=document.getElementById('scoreTrackingInput');
 var teamEditor=document.getElementById('teamEditor');
 var addTeamBtn=document.getElementById('addTeamBtn');
 var downloadPrefilledBtn=document.getElementById('downloadPrefilledBtn');
+var downloadPdfBtn=document.getElementById('downloadPdfBtn');
 var participantTeamFilter=document.getElementById('participantTeamFilter');
 var participantResetBtn=document.getElementById('participantResetBtn');
 var adminTeamFilter=document.getElementById('adminTeamFilter');
