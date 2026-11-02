@@ -3,145 +3,502 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#003f73">
-<meta name="description" content="Turnierplanung und Zeitnahme für die Turnierleitung.">
+<meta name="description" content="Turnierplanung, Einzelspiele, Live-Spielstand und Zeitnahme für die Jugendmannschaft.">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="apple-mobile-web-app-title" content="Turnierleitung">
+<meta name="apple-mobile-web-app-title" content="Fußball">
 <link rel="manifest" href="./manifest.webmanifest">
 <link rel="apple-touch-icon" href="./icon-192.png">
-<title>Turnierleitung – Germania Ginnheim</title>
-<link rel="stylesheet" href="./styles.css">
+<title>Fußball – meind.ing</title>
+<style>
+:root {--club-blue:#6192db;--club-blue-dark:#003f73;--club-blue-soft:#e8f3ff;--accent:#11a36a;--ink:#15202b;--muted:#5d6b78;--line:#d9e5ef;--card:#ffffff;--bg:#f4f8fc;--shadow:0 14px 30px rgba(0,72,132,.12);--radius:22px;}
+*{box-sizing:border-box;}body{margin:0;font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--ink);background:radial-gradient(circle at top left,#dff0ff 0,transparent 34rem),var(--bg);line-height:1.45;}header{background:linear-gradient(135deg,rgb(81,150,254),var(--club-blue-dark));color:#fff;padding:22px 16px 26px;border-bottom-left-radius:28px;border-bottom-right-radius:28px;box-shadow:var(--shadow);}.header-inner{max-width:1040px;margin:0 auto;display:grid;gap:16px;align-items:center;grid-template-columns:auto 1fr;}.logo{width:74px;height:74px;flex:0 0 auto;filter:drop-shadow(0 7px 10px rgba(0,0,0,.22));object-fit:contain;}h1{margin:0;font-size:clamp(1.35rem,6vw,2.65rem);line-height:1.08;letter-spacing:-.02em;}main{max-width:1040px;margin:0 auto;padding:18px 14px 42px;}.summary-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:-8px;}.summary-card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:14px;box-shadow:var(--shadow);}.summary-card small{display:block;color:var(--muted);font-weight:700;text-transform:uppercase;font-size:.72rem;letter-spacing:.04em;}.summary-card strong{display:block;margin-top:4px;font-size:1.05rem;}.summary-card input{width:86px;margin-top:4px;padding:7px 9px;border:1px solid #bcd0df;border-radius:12px;font-size:1.05rem;font-weight:800;color:var(--ink);background:#fff;}#startTimeInput{width:132px!important;min-width:132px;}.input-unit{font-weight:800;margin-left:4px;}.panel{background:rgba(255,255,255,.92);border:1px solid var(--line);border-radius:var(--radius);padding:14px;margin-top:16px;box-shadow:var(--shadow);}.controls{display:grid;grid-template-columns:1fr;gap:10px;}label{font-weight:800;font-size:.88rem;}select,input{width:100%;margin-top:6px;padding:12px 13px;border:1px solid #bcd0df;border-radius:14px;font-size:1rem;background:#fff;color:var(--ink);}.team-input{width:100%;max-width:320px;}#fieldCountOptions,#gameModeOptions{display:flex;gap:14px;align-items:center;margin-top:6px;}#fieldCountOptions label,#gameModeOptions label{display:flex;align-items:center;gap:5px;font-weight:800;}#fieldCountOptions input,#gameModeOptions input{width:auto;margin:0;padding:0;}.button-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px;}button{border:0;border-radius:999px;padding:11px 15px;background:var(--club-blue);color:#fff;font-weight:800;box-shadow:0 8px 16px rgba(0,93,170,.22);cursor:pointer;}button.secondary{background:#fff;color:var(--club-blue);border:1px solid #bcd0df;box-shadow:none;}.section-title{display:flex;justify-content:space-between;align-items:end;gap:10px;margin:22px 2px 10px;}.section-title h2{margin:0;font-size:1.3rem;}.hint{color:var(--muted);font-size:.9rem;}.kickoff-legend{color:var(--muted);font-size:.88rem;font-weight:700;margin:0 2px 10px;}.cards{display:grid;gap:12px;}.round-block{margin-bottom:18px;}.round-title{font-weight:900;margin:8px 4px 10px;color:var(--club-blue-dark);}.round-block.hidden{display:none;}.match-card{background:var(--card);border:1px solid var(--line);border-left:6px solid var(--club-blue);border-radius:20px;padding:14px;box-shadow:var(--shadow);}.match-card+.match-card{margin-top:12px;}.match-card.hidden,tr.hidden{display:none;}.hidden-column{display:none!important;}.match-topline{display:flex;justify-content:space-between;gap:10px;align-items:center;margin-bottom:9px;}.badge{background:var(--club-blue-soft);color:var(--club-blue-dark);border-radius:999px;padding:5px 10px;font-weight:900;font-size:.85rem;}.time{font-weight:900;color:var(--club-blue-dark);}.teams{display:grid;grid-template-columns:1fr auto 1fr;gap:9px;align-items:center;font-size:1.02rem;font-weight:800;}.teams span:last-child{text-align:right;}.teams strong{color:var(--muted);font-size:.82rem;}.meta{display:flex;justify-content:space-between;gap:8px;margin-top:12px;color:var(--muted);font-weight:700;font-size:.88rem;}.table-wrap{overflow-x:auto;border-radius:18px;border:1px solid var(--line);background:#fff;}table{width:100%;border-collapse:collapse;min-width:760px;}th,td{padding:12px 10px;text-align:left;border-bottom:1px solid var(--line);white-space:nowrap;}th{background:var(--club-blue);color:#fff;position:sticky;top:0;}tbody tr:nth-child(even){background:#f8fbff;}.teams-list{columns:1;padding-left:20px;margin-bottom:0;}.footer-note{color:var(--muted);font-size:.88rem;margin:18px 2px 0;}@media (min-width:720px){header{padding:32px 26px 38px;}.logo{width:96px;height:96px;}.summary-grid{grid-template-columns:repeat(4,minmax(0,1fr));margin-top:-22px;}.controls{grid-template-columns:1fr 1fr 1.2fr;align-items:end;}.cards{grid-template-columns:1fr;}.teams-list{columns:2;}}@media print{body{background:#fff;}header,.panel .controls,.button-row{box-shadow:none;}button,.controls{display:none;}.match-card{break-inside:avoid;box-shadow:none;}.panel,.summary-card{box-shadow:none;}}
+
+.team-editor{display:grid;gap:9px;margin:10px 0 4px;}
+.team-row{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center;}
+.team-row input{margin-top:0;max-width:none;}
+.icon-btn{border-radius:12px;padding:10px 12px;box-shadow:none;background:#fff;color:#8a2633;border:1px solid #e4bdc3;}
+.settings-grid{display:grid;grid-template-columns:1fr;gap:12px;margin-top:14px;}
+.setting-box{border:1px solid var(--line);border-radius:16px;padding:12px;background:#f9fcff;}
+.setting-box label{display:block;}
+.inline-check{display:flex!important;align-items:center;gap:9px;font-weight:800;}
+.inline-check input{width:auto;margin:0;}
+.score-editor{display:none;grid-template-columns:1fr auto 1fr;gap:9px;align-items:center;margin-top:12px;padding-top:12px;border-top:1px dashed var(--line);}
+.score-editor.active{display:grid;}
+.score-side{display:grid;gap:5px;}
+.score-side:last-child{text-align:right;}
+.score-input{width:74px!important;margin:0!important;text-align:center;font-size:1.15rem;font-weight:900;padding:9px 7px!important;}
+.score-side:last-child .score-input{justify-self:end;}
+.score-sep{font-weight:900;color:var(--muted);font-size:1.15rem;}
+.result-cell{font-weight:900;text-align:center;}
+.status-note{margin:10px 0 0;color:var(--muted);font-size:.88rem;}
+.standings-panel.hidden{display:none;}
+.standings-table{min-width:720px;}
+.standings-table td.num,.standings-table th.num{text-align:right;}
+.standings-table tbody tr:first-child{font-weight:900;}
+.empty-state{padding:18px;border:1px dashed #bcd0df;border-radius:16px;color:var(--muted);background:#f9fcff;}
+.setting-box.hidden{display:none;}
+.slot-block{margin-bottom:18px;}
+.slot-block.hidden{display:none;}
+.slot-header{display:flex;justify-content:space-between;gap:10px;align-items:center;margin:8px 4px 8px;font-weight:900;color:var(--club-blue-dark);}
+.slot-pause{margin:0 4px 10px;padding:8px 10px;border-radius:12px;background:var(--club-blue-soft);color:var(--club-blue-dark);font-size:.88rem;font-weight:750;}
+.phase-separator{margin:22px 4px 10px;padding-top:4px;font-weight:900;color:var(--club-blue-dark);font-size:1.05rem;}
+.match-topline .badge{display:inline-flex;gap:5px;align-items:center;}
+@media (min-width:720px){.settings-grid{grid-template-columns:repeat(3,minmax(0,1fr));}.team-editor{grid-template-columns:1fr 1fr;}.team-row{min-width:0;}}
+
+
+/* MVP v3.1: getrennte Ansichten + exportierbare Offline-Teilnehmeransicht */
+.view-switcher{max-width:1040px;margin:14px auto 0;padding:0 14px;display:flex;gap:8px;}
+.view-tab{flex:1;border-radius:14px;background:#fff;color:var(--club-blue-dark);border:1px solid #bcd0df;box-shadow:none;padding:12px 14px;}
+.view-tab.active{background:var(--club-blue-dark);color:#fff;border-color:var(--club-blue-dark);}
+.app-view.hidden{display:none!important;}
+.view-note{display:flex;gap:10px;align-items:flex-start;margin:0 0 14px;padding:12px 14px;border-radius:16px;background:#eef7ff;border:1px solid #cfe4f6;color:var(--club-blue-dark);}
+.view-note strong{display:block;}
+.view-note small{display:block;margin-top:2px;color:var(--muted);}
+.readonly-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:-8px;}
+.readonly-card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:14px;box-shadow:var(--shadow);}
+.readonly-card small{display:block;color:var(--muted);font-weight:700;text-transform:uppercase;font-size:.72rem;letter-spacing:.04em;}
+.readonly-card strong{display:block;margin-top:4px;font-size:1.02rem;}
+.public-result{font-size:1.1rem!important;color:var(--club-blue-dark)!important;}
+.admin-label{display:inline-flex;align-items:center;gap:7px;font-weight:900;color:#7a4b00;background:#fff5df;border:1px solid #efd6a2;border-radius:999px;padding:6px 10px;font-size:.82rem;}
+.admin-score-note{margin:8px 4px 10px;color:var(--muted);font-size:.88rem;}
+.view-heading{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:2px 2px 14px;}
+.view-heading h2{margin:0;}
+@media (min-width:720px){.view-switcher{padding:0 26px;}.readonly-grid{grid-template-columns:repeat(6,minmax(0,1fr));margin-top:-22px;}.view-tab{flex:0 0 auto;min-width:220px;}}
+@media print{.view-switcher,.view-note{display:none!important;}.app-view.hidden{display:none!important;}}
+
+
+/* MVP v4: Eventtyp Turnier / Einzelspiel */
+.event-type-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px;}
+.event-type-btn{border-radius:16px;background:#fff;color:var(--club-blue-dark);border:1px solid #bcd0df;box-shadow:none;padding:14px 12px;text-align:left;}
+.event-type-btn strong,.event-type-btn small{display:block;}.event-type-btn small{margin-top:3px;color:var(--muted);font-weight:600;}
+.event-type-btn.active{background:var(--club-blue-dark);color:#fff;border-color:var(--club-blue-dark);}.event-type-btn.active small{color:#dcecff;}
+.mode-section.hidden,.public-mode.hidden{display:none!important;}
+.stopwatch-panel{display:grid;gap:14px;align-items:center;}
+.stopwatch-time{font-size:clamp(2.4rem,12vw,5rem);line-height:1;font-variant-numeric:tabular-nums;font-weight:950;letter-spacing:.02em;color:var(--club-blue-dark);text-align:center;}
+.stopwatch-status{text-align:center;font-weight:850;color:var(--muted);}
+.stopwatch-actions{display:flex;justify-content:center;gap:9px;flex-wrap:wrap;}
+.danger{background:#9b2635!important;color:#fff!important;border-color:#9b2635!important;}
+.match-config-grid{display:grid;grid-template-columns:1fr;gap:12px;margin-top:12px;}
+.live-scoreboard{background:#fff;border:1px solid var(--line);border-radius:24px;padding:18px;box-shadow:var(--shadow);margin-top:16px;}
+.live-teams{display:grid;grid-template-columns:1fr auto 1fr;gap:12px;align-items:center;text-align:center;}
+.live-team-name{font-size:clamp(1rem,4vw,1.35rem);font-weight:900;overflow-wrap:anywhere;}
+.live-score{font-size:clamp(2.5rem,12vw,5.5rem);font-weight:950;line-height:1;font-variant-numeric:tabular-nums;color:var(--club-blue-dark);white-space:nowrap;}
+.goal-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px;}
+.goal-side{display:grid;gap:8px;}.goal-side button{width:100%;}
+.public-match-card{background:#fff;border:1px solid var(--line);border-radius:26px;padding:20px 16px;box-shadow:var(--shadow);margin-top:8px;}
+.public-match-meta{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-bottom:14px;}
+.status-pill{display:inline-flex;align-items:center;border-radius:999px;padding:6px 11px;font-weight:900;font-size:.84rem;background:#eef3f7;color:var(--muted);}
+.status-pill.live{background:#e5f8ef;color:#08764d;}.status-pill.paused{background:#fff5df;color:#7a4b00;}.status-pill.finished{background:#eef3f7;color:#4c5964;}
+.public-clock{text-align:center;font-size:clamp(1.8rem,8vw,3.2rem);font-weight:950;font-variant-numeric:tabular-nums;color:var(--club-blue-dark);margin-top:16px;}
+.public-kickoff{text-align:center;color:var(--muted);font-weight:750;margin-top:6px;}
+.event-summary{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-bottom:14px;}
+.event-summary .readonly-card{box-shadow:none;}
+.local-warning{margin-top:12px;padding:10px 12px;border-radius:14px;background:#fff8e8;border:1px solid #efd6a2;color:#6e5214;font-size:.86rem;}
+@media(min-width:720px){.match-config-grid{grid-template-columns:repeat(3,minmax(0,1fr));}.stopwatch-panel{grid-template-columns:1fr 1fr 1fr;}.stopwatch-time{text-align:left;}.stopwatch-status{text-align:left;}.stopwatch-actions{justify-content:flex-end;}.event-summary{grid-template-columns:repeat(4,minmax(0,1fr));}}
+
+/* Responsive Feldgrößen: Eingaben dürfen ihre Karten/Grids nicht überragen */
+.summary-card,.setting-box,.readonly-card,.match-config-grid>*,.settings-grid>*,.event-type-grid>*{min-width:0;}
+input,select,button{max-width:100%;min-width:0;}
+.summary-card strong{display:flex;align-items:center;gap:6px;flex-wrap:nowrap;min-width:0;}
+.summary-card input{width:auto;min-width:0;max-width:100%;flex:1 1 70px;margin-top:4px;}
+#startTimeInput{width:auto!important;min-width:0!important;max-width:100%!important;flex:1 1 92px;}
+.input-unit{flex:0 0 auto;margin-left:0;white-space:nowrap;font-size:.9rem;}
+.team-row{grid-template-columns:minmax(0,1fr) auto;}
+.team-row .team-input{min-width:0;max-width:100%;}
+.setting-box input,.setting-box select,.match-config-grid input,.match-config-grid select{width:100%;max-width:100%;min-width:0;}
+.event-type-btn{min-width:0;overflow-wrap:anywhere;}
+.stopwatch-actions button,.button-row button{max-width:100%;white-space:normal;}
+.score-side{min-width:0;}
+.score-side span{overflow-wrap:anywhere;}
+.live-teams>*{min-width:0;}
+@media(max-width:520px){
+  .event-type-grid{grid-template-columns:1fr;}
+  .summary-grid{grid-template-columns:repeat(2,minmax(0,1fr));}
+  .summary-card{padding:12px;}
+  .summary-card input{font-size:1rem;padding:7px 6px;}
+  .input-unit{font-size:.78rem;}
+  .team-row{grid-template-columns:1fr;}
+  .team-row .icon-btn{width:100%;}
+  .goal-actions{grid-template-columns:1fr 1fr;}
+  .live-scoreboard{padding:16px 12px;}
+  .live-teams{grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);gap:8px;}
+}
+@media(max-width:380px){
+  .summary-grid,.readonly-grid,.event-summary{grid-template-columns:1fr;}
+  .view-switcher{flex-direction:column;}
+  .view-tab{width:100%;}
+}
+
+</style>
 </head>
 <body>
-<header><div class="header-inner"><img class="logo" src="./logo.jpg" alt="Vereinslogo Germania Ginnheim"><div><h1 id="tournamentTitleDisplay">Jugendturnier Germania Ginnheim</h1></div></div></header>
-<div class="app-shell-nav" role="tablist" aria-label="Bereich auswählen">
-  <button class="shell-tab active" type="button" id="plannerShellTab" role="tab" aria-selected="true">Turnierplan</button>
-  <button class="shell-tab" type="button" id="timeShellTab" role="tab" aria-selected="false">Zeitnahme</button>
-</div>
+<header><div class="header-inner"><img class="logo" src="data:image/jpeg;base64,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" alt="Vereinslogo Germania Ginnheim"><div><h1 id="tournamentTitleDisplay">Jugendturnier Germania Ginnheim</h1></div></div></header>
 <main>
-<section class="module-view" id="plannerModule">
   <div class="view-switcher" role="tablist" aria-label="Ansicht auswählen">
-    <button class="view-tab active" type="button" id="participantTab" data-view="participant" role="tab" aria-selected="true">Teilnehmeransicht</button>
-    <button class="view-tab" type="button" id="adminTab" data-view="admin" role="tab" aria-selected="false">Turnierleitung</button>
+    <button class="view-tab active" type="button" id="participantTab" role="tab" aria-selected="true">Öffentliche Ansicht</button>
+    <button class="view-tab" type="button" id="adminTab" role="tab" aria-selected="false">Adminbereich</button>
   </div>
 
   <section class="app-view" id="participantView">
-    <div class="view-note"><div><strong>Teilnehmeransicht</strong><small>Diese Ansicht ist für Eltern, Trainer und Spieler gedacht. Einstellungen und Ergebnispflege sind hier nicht möglich.</small></div></div>
+    <div class="view-note"><div><strong>Öffentliche Ansicht</strong><small>Lokaler Prototyp der späteren Seite unter fussball.meind.ing. Hier können keine Daten geändert werden.</small></div></div>
 
-    <section class="readonly-grid" aria-label="Turnierinformationen">
-      <div class="readonly-card"><small>Start</small><strong id="participantStart">09:00 Uhr</strong></div>
-      <div class="readonly-card"><small>Spieldauer</small><strong id="participantDuration">10 Minuten</strong></div>
-      <div class="readonly-card"><small>Pause</small><strong id="participantBreak">5 Minuten</strong></div>
-      <div class="readonly-card"><small>Felder</small><strong id="participantFields">2</strong></div>
-      <div class="readonly-card"><small>Modus</small><strong id="participantMode">Hinrunde</strong></div>
-      <div class="readonly-card"><small>Umfang</small><strong id="participantGames">15 Spiele</strong><small id="participantEnd">Ende 11:10 Uhr</small></div>
-    </section>
+    <div class="public-mode" id="publicTournamentView">
+      <section class="readonly-grid" aria-label="Turnierinformationen">
+        <div class="readonly-card"><small>Start</small><strong id="participantStart">09:00 Uhr</strong></div>
+        <div class="readonly-card"><small>Spieldauer</small><strong id="participantDuration">10 Minuten</strong></div>
+        <div class="readonly-card"><small>Pause</small><strong id="participantBreak">5 Minuten</strong></div>
+        <div class="readonly-card"><small>Felder</small><strong id="participantFields">2</strong></div>
+        <div class="readonly-card"><small>Modus</small><strong id="participantMode">Hinrunde</strong></div>
+        <div class="readonly-card"><small>Umfang</small><strong id="participantGames">0 Spiele</strong><small id="participantEnd">Ende --:-- Uhr</small></div>
+      </section>
+      <section class="panel">
+        <div class="controls"><label>Meine Mannschaft<select id="participantTeamFilter"><option value="all">Alle Mannschaften</option></select></label></div>
+        <div class="button-row"><button class="secondary" type="button" id="participantResetBtn">Filter zurücksetzen</button></div>
+      </section>
+      <div class="section-title"><h2>Spielplan</h2><span class="hint" id="participantCountHint">0 Spiele sichtbar</span></div>
+      <div class="kickoff-legend">⚽ = Anstoß</div>
+      <section class="cards" id="participantCards"><div class="empty-state">Noch kein Spielplan erstellt.</div></section>
+      <section class="standings-panel hidden" id="participantStandingsSection">
+        <div class="section-title"><h2>Tabelle</h2><span class="hint">automatisch aus vollständigen Ergebnissen</span></div>
+        <div class="panel table-wrap"><table class="standings-table"><thead><tr><th>#</th><th>Mannschaft</th><th class="num">Sp</th><th class="num">S</th><th class="num">U</th><th class="num">N</th><th class="num">Tore</th><th class="num">Diff.</th><th class="num">Pkt.</th></tr></thead><tbody id="participantStandingsBody"></tbody></table></div>
+      </section>
+      <div class="section-title"><h2>Tabellarische Übersicht</h2><span class="hint">horizontal scrollbar auf Mobilgeräten</span></div>
+      <section class="panel table-wrap"><table id="participantScheduleTable"><thead id="participantScheduleHead"></thead><tbody></tbody></table></section>
+    </div>
 
-    <section class="panel">
-      <div class="controls"><label>Meine Mannschaft<select id="participantTeamFilter"><option value="all">Alle Mannschaften</option></select></label></div>
-      <div class="button-row"><button class="secondary" type="button" id="participantResetBtn">Filter zurücksetzen</button></div>
-    </section>
-
-    <div class="section-title"><h2>Spielplan</h2><span class="hint" id="participantCountHint">0 Spiele sichtbar</span></div>
-    <section class="cards" id="participantCards"><div class="empty-state">Noch kein Spielplan erstellt.</div></section>
-
-    <section class="standings-panel hidden" id="participantStandingsSection">
-      <div class="section-title"><h2>Tabelle</h2><span class="hint">automatisch aus vollständigen Ergebnissen</span></div>
-      <div class="panel table-wrap"><table class="standings-table"><thead><tr><th>#</th><th>Mannschaft</th><th class="num">Sp</th><th class="num">S</th><th class="num">U</th><th class="num">N</th><th class="num">Tore</th><th class="num">Diff.</th><th class="num">Pkt.</th></tr></thead><tbody id="participantStandingsBody"></tbody></table></div>
-    </section>
-
-    <div class="section-title"><h2>Tabellarische Übersicht</h2><span class="hint">horizontal scrollbar auf Mobilgeräten</span></div>
-    <section class="panel table-wrap"><table id="participantScheduleTable"><thead id="participantScheduleHead"></thead><tbody></tbody></table></section>
+    <div class="public-mode hidden" id="publicSingleMatchView">
+      <section class="event-summary">
+        <div class="readonly-card"><small>Anstoß</small><strong id="publicMatchKickoff">--:-- Uhr</strong></div>
+        <div class="readonly-card"><small>Spieldauer</small><strong id="publicMatchDuration">-- Minuten</strong></div>
+        <div class="readonly-card"><small>Status</small><strong id="publicMatchStatusSummary">Noch nicht gestartet</strong></div>
+        <div class="readonly-card"><small>Spielzeit</small><strong id="publicMatchClockSummary">00:00</strong></div>
+      </section>
+      <section class="public-match-card">
+        <div class="public-match-meta"><span class="status-pill" id="publicMatchStatusPill">Noch nicht gestartet</span></div>
+        <div class="live-teams">
+          <div class="live-team-name" id="publicHomeTeam">Heim</div>
+          <div class="live-score"><span id="publicHomeScore">0</span> : <span id="publicAwayScore">0</span></div>
+          <div class="live-team-name" id="publicAwayTeam">Gast</div>
+        </div>
+        <div class="public-clock" id="publicMatchClock">00:00</div>
+        <div class="public-kickoff" id="publicMatchInfo">Anstoß --:-- Uhr</div>
+      </section>
+      <p class="local-warning">In dieser lokalen v4 wird die Anzeige nur innerhalb derselben geöffneten Datei live aktualisiert. Die Übertragung auf andere Smartphones kommt im nächsten Schritt mit Firebase.</p>
+    </div>
   </section>
 
   <section class="app-view hidden" id="adminView">
-    <div class="view-note"><div><strong>Turnierleitung</strong><small>Lokaler Prototyp: Der Ansichtswechsel ist noch kein Login. Die echte Zugriffssicherung folgt mit der Online-Version.</small></div></div>
-
-    <div class="view-heading"><h2>Turnier verwalten</h2><span class="admin-label">Bearbeiten</span></div>
-    <section class="summary-grid" aria-label="Turniereinstellungen">
-      <div class="summary-card"><small>Start</small><strong><input id="startTimeInput" type="time" value="09:00" step="300" aria-label="Start-Uhrzeit auswählen"><span class="input-unit">Uhr</span></strong></div>
-      <div class="summary-card"><small>Spieldauer</small><strong><input id="durationInput" type="number" min="1" step="1" value="10" aria-label="Spieldauer in Minuten"><span class="input-unit">Minuten</span></strong></div>
-      <div class="summary-card"><small>Pause</small><strong><input id="breakInput" type="number" min="0" step="1" value="5" aria-label="Pause in Minuten"><span class="input-unit">Minuten</span></strong></div>
-      <div class="summary-card"><small>Spiele</small><strong id="gamesSummary">0 Spiele</strong><small id="endSummary">Ende --:-- Uhr</small></div>
-    </section>
+    <div class="view-note"><div><strong>Adminbereich</strong><small>Lokaler Prototyp: Der Ansichtswechsel ist noch kein Login. Die echte Anmeldung folgt mit der Online-Version.</small></div></div>
 
     <section class="panel">
-      <h2>Turnier einrichten</h2>
-      <p class="hint">Änderungen werden automatisch in Spielplan und Teilnehmeransicht übernommen.</p>
+      <h2>Event einrichten</h2>
       <div class="settings-grid">
-        <div class="setting-box"><label>Turniertitel<input id="tournamentTitleInput" type="text" maxlength="80" value="Jugendturnier Germania Ginnheim" aria-label="Turniertitel"></label><p class="status-note">Der Titel wird oben auf der Seite, in der Teilnehmeransicht und in der Verband-PDF angezeigt.</p></div>
-        <div class="setting-box"><label>Turnierdatum<input id="tournamentDateInput" type="date" aria-label="Turnierdatum"></label><p class="status-note">Das Datum wird für die Spielplan-PDF des Verbands verwendet.</p></div>
+        <div class="setting-box"><label>Titel<input id="eventTitleInput" type="text" maxlength="80" value="Jugendturnier Germania Ginnheim"></label><p class="status-note">Wird oben in der öffentlichen Ansicht angezeigt.</p></div>
+        <div class="setting-box"><label>Art der Veranstaltung<select id="eventTypeSelect"><option value="tournament">Turnier</option><option value="match">Einzelspiel</option></select></label><p class="status-note">Die Adminoberfläche passt sich automatisch an.</p></div>
       </div>
-      <div class="team-editor" id="teamEditor" aria-label="Teilnehmende Mannschaften">
-        <div class="team-row"><input class="team-input" type="text" maxlength="40" value="Germania Ginnheim I" aria-label="Mannschaft 1"><button class="icon-btn remove-team-btn" type="button" aria-label="Mannschaft entfernen">Entfernen</button></div>
-        <div class="team-row"><input class="team-input" type="text" maxlength="40" value="Germania Ginnheim II" aria-label="Mannschaft 2"><button class="icon-btn remove-team-btn" type="button" aria-label="Mannschaft entfernen">Entfernen</button></div>
-        <div class="team-row"><input class="team-input" type="text" maxlength="40" value="Tempo" aria-label="Mannschaft 3"><button class="icon-btn remove-team-btn" type="button" aria-label="Mannschaft entfernen">Entfernen</button></div>
-        <div class="team-row"><input class="team-input" type="text" maxlength="40" value="Nieder-Eschbach I" aria-label="Mannschaft 4"><button class="icon-btn remove-team-btn" type="button" aria-label="Mannschaft entfernen">Entfernen</button></div>
-        <div class="team-row"><input class="team-input" type="text" maxlength="40" value="Nieder-Eschbach II" aria-label="Mannschaft 5"><button class="icon-btn remove-team-btn" type="button" aria-label="Mannschaft entfernen">Entfernen</button></div>
-        <div class="team-row"><input class="team-input" type="text" maxlength="40" value="Concordia Eschersheim" aria-label="Mannschaft 6"><button class="icon-btn remove-team-btn" type="button" aria-label="Mannschaft entfernen">Entfernen</button></div>
-      </div>
-      <div class="button-row"><button class="secondary" type="button" id="addTeamBtn">+ Mannschaft hinzufügen</button></div>
-
-      <div class="settings-grid">
-        <div class="setting-box"><label>Anzahl Spielfelder<input id="fieldCountInput" type="number" min="1" max="10" step="1" value="2" aria-label="Anzahl Spielfelder"></label></div>
-        <div class="setting-box"><label>Spielmodus<select id="gameModeSelect"><option value="single">Hinrunde</option><option value="double">Hin- und Rückrunde</option></select></label></div>
-        <div class="setting-box hidden" id="roundBreakBox"><label>Zusätzliche Pause vor der Rückrunde<input id="roundBreakInput" type="number" min="0" max="240" step="1" value="0" aria-label="Zusätzliche Pause vor der Rückrunde in Minuten"></label><p class="status-note">Zusätzlich zur normalen Pause zwischen zwei Spielslots.</p></div>
-        <div class="setting-box"><label>Tore erfassen und Tabelle anzeigen<select id="scoreTrackingInput"><option value="no" selected>Nein</option><option value="yes">Ja</option></select></label><p class="status-note">Bei „Nein“ bleibt die Teilnehmeransicht ein reiner Spielplan.</p></div>
-      </div>
-
-      <div class="button-row"><button class="secondary" type="button" id="downloadPrefilledBtn">Teilnehmeransicht</button><button type="button" id="downloadPdfBtn">PDF erzeugen</button></div><p class="status-note">„Teilnehmeransicht“ erzeugt die eigenständige Offline-HTML-Datei für Teilnehmer. „PDF erzeugen“ erstellt den tabellarischen Spielplan als A4-PDF im Querformat für den Verband.</p>
     </section>
 
-    <section class="panel">
-      <div class="controls"><label>Team filtern<select id="adminTeamFilter"><option value="all">Alle Mannschaften</option></select></label></div>
-      <div class="button-row"><button class="secondary" type="button" id="adminResetBtn">Filter zurücksetzen</button></div>
-    </section>
+    <div class="mode-section" id="adminTournamentSection">
+      <div class="view-heading"><h2>Turnier verwalten</h2><span class="admin-label">Bearbeiten</span></div>
+      <section class="summary-grid" aria-label="Turniereinstellungen">
+        <div class="summary-card"><small>Start</small><strong><input id="startTimeInput" type="time" value="09:00" step="300"><span class="input-unit">Uhr</span></strong></div>
+        <div class="summary-card"><small>Spieldauer</small><strong><input id="durationInput" type="number" min="1" step="1" value="10"><span class="input-unit">Minuten</span></strong></div>
+        <div class="summary-card"><small>Pause</small><strong><input id="breakInput" type="number" min="0" step="1" value="5"><span class="input-unit">Minuten</span></strong></div>
+        <div class="summary-card"><small>Spiele</small><strong id="gamesSummary">0 Spiele</strong><small id="endSummary">Ende --:-- Uhr</small></div>
+      </section>
+      <section class="panel">
+        <h2>Turnier einrichten</h2>
+        <p class="hint">Änderungen werden automatisch in Spielplan und öffentlicher Ansicht übernommen.</p>
+        <div class="team-editor" id="teamEditor">
+          <div class="team-row"><input class="team-input" type="text" maxlength="40" value="Germania Ginnheim I"><button class="icon-btn remove-team-btn" type="button">Entfernen</button></div>
+          <div class="team-row"><input class="team-input" type="text" maxlength="40" value="Germania Ginnheim II"><button class="icon-btn remove-team-btn" type="button">Entfernen</button></div>
+          <div class="team-row"><input class="team-input" type="text" maxlength="40" value="Tempo"><button class="icon-btn remove-team-btn" type="button">Entfernen</button></div>
+          <div class="team-row"><input class="team-input" type="text" maxlength="40" value="Nieder-Eschbach I"><button class="icon-btn remove-team-btn" type="button">Entfernen</button></div>
+          <div class="team-row"><input class="team-input" type="text" maxlength="40" value="Nieder-Eschbach II"><button class="icon-btn remove-team-btn" type="button">Entfernen</button></div>
+          <div class="team-row"><input class="team-input" type="text" maxlength="40" value="Concordia Eschersheim"><button class="icon-btn remove-team-btn" type="button">Entfernen</button></div>
+        </div>
+        <div class="button-row"><button class="secondary" type="button" id="addTeamBtn">+ Mannschaft hinzufügen</button></div>
+        <div class="settings-grid">
+          <div class="setting-box"><label>Turnierdatum<input id="tournamentDateInput" type="date" aria-label="Turnierdatum"></label><p class="status-note">Wird für die Spielplan-PDF verwendet.</p></div>
+          <div class="setting-box"><label>Anzahl Spielfelder<input id="fieldCountInput" type="number" min="1" max="10" step="1" value="2"></label></div>
+          <div class="setting-box"><label>Spielmodus<select id="gameModeSelect"><option value="single">Hinrunde</option><option value="double">Hin- und Rückrunde</option></select></label></div>
+          <div class="setting-box hidden" id="roundBreakBox"><label>Zusätzliche Pause vor der Rückrunde<input id="roundBreakInput" type="number" min="0" max="240" step="1" value="0"></label></div>
+          <div class="setting-box"><label>Tore erfassen und Tabelle anzeigen<select id="scoreTrackingInput"><option value="no" selected>Nein</option><option value="yes">Ja</option></select></label></div>
+        </div>
+      </section>
+      <section class="panel">
+        <h2>Stoppuhr</h2>
+        <div class="stopwatch-panel"><div class="stopwatch-time" id="tournamentStopwatch">00:00</div><div class="stopwatch-status" id="tournamentStopwatchStatus">Bereit</div><div class="stopwatch-actions"><button type="button" id="tournamentStopwatchStart">Start</button><button class="secondary" type="button" id="tournamentStopwatchPause">Pause</button><button class="secondary" type="button" id="tournamentStopwatchReset">Zurücksetzen</button></div></div>
+      </section>
+      <section class="panel">
+        <div class="controls"><label>Team filtern<select id="adminTeamFilter"><option value="all">Alle Mannschaften</option></select></label></div>
+        <div class="button-row"><button class="secondary" type="button" id="adminResetBtn">Filter zurücksetzen</button><button class="secondary" type="button" id="downloadParticipantBtn">Teilnehmeransicht speichern</button><button type="button" id="downloadPdfBtn">PDF erzeugen</button></div>
+      </section>
+      <div class="section-title"><h2>Ergebnisse pflegen</h2><span class="hint" id="adminCountHint">0 Spiele sichtbar</span></div>
+      <div class="kickoff-legend">⚽ = Anstoß</div>
+      <p class="admin-score-note" id="adminScoreNote">Die Torerfassung ist aktuell deaktiviert.</p>
+      <section class="cards" id="adminCards"><div class="empty-state">Noch kein Spielplan erstellt.</div></section>
+      <section class="standings-panel hidden" id="adminStandingsSection">
+        <div class="section-title"><h2>Tabelle</h2><span class="hint">Kontrollansicht der Turnierleitung</span></div>
+        <div class="panel table-wrap"><table class="standings-table"><thead><tr><th>#</th><th>Mannschaft</th><th class="num">Sp</th><th class="num">S</th><th class="num">U</th><th class="num">N</th><th class="num">Tore</th><th class="num">Diff.</th><th class="num">Pkt.</th></tr></thead><tbody id="adminStandingsBody"></tbody></table></div>
+      </section>
+    </div>
 
-    <div class="section-title"><h2>Ergebnisse pflegen</h2><span class="hint" id="adminCountHint">0 Spiele sichtbar</span></div>
-    <p class="admin-score-note" id="adminScoreNote">Die Torerfassung ist aktuell deaktiviert.</p>
-    <section class="cards" id="adminCards"><div class="empty-state">Noch kein Spielplan erstellt.</div></section>
-
-    <section class="standings-panel hidden" id="adminStandingsSection">
-      <div class="section-title"><h2>Tabelle</h2><span class="hint">Kontrollansicht der Turnierleitung</span></div>
-      <div class="panel table-wrap"><table class="standings-table"><thead><tr><th>#</th><th>Mannschaft</th><th class="num">Sp</th><th class="num">S</th><th class="num">U</th><th class="num">N</th><th class="num">Tore</th><th class="num">Diff.</th><th class="num">Pkt.</th></tr></thead><tbody id="adminStandingsBody"></tbody></table></div>
-    </section>
+    <div class="mode-section hidden" id="adminSingleMatchSection">
+      <div class="view-heading"><h2>Einzelspiel verwalten</h2><span class="admin-label">Live-Steuerung</span></div>
+      <section class="panel">
+        <h2>Spiel einrichten</h2>
+        <div class="match-config-grid">
+          <div class="setting-box"><label>Heimmannschaft<input id="singleHomeInput" type="text" maxlength="40" value="Germania Ginnheim"></label></div>
+          <div class="setting-box"><label>Gastmannschaft<input id="singleAwayInput" type="text" maxlength="40" value="Gastmannschaft"></label></div>
+          <div class="setting-box"><label>Geplanter Anstoß<input id="singleKickoffInput" type="time" value="10:00" step="300"></label></div>
+          <div class="setting-box"><label>Geplante Spieldauer<input id="singleDurationInput" type="number" min="1" max="240" value="60"></label></div>
+        </div>
+      </section>
+      <section class="live-scoreboard">
+        <div class="public-match-meta"><span class="status-pill" id="adminSingleStatusPill">Noch nicht gestartet</span></div>
+        <div class="live-teams">
+          <div class="live-team-name" id="adminHomeTeam">Germania Ginnheim</div>
+          <div class="live-score"><span id="adminHomeScore">0</span> : <span id="adminAwayScore">0</span></div>
+          <div class="live-team-name" id="adminAwayTeam">Gastmannschaft</div>
+        </div>
+        <div class="goal-actions">
+          <div class="goal-side"><button type="button" id="homeGoalPlus">+ Tor Heim</button><button class="secondary" type="button" id="homeGoalMinus">− Tor Heim</button></div>
+          <div class="goal-side"><button type="button" id="awayGoalPlus">+ Tor Gast</button><button class="secondary" type="button" id="awayGoalMinus">− Tor Gast</button></div>
+        </div>
+      </section>
+      <section class="panel">
+        <h2>Spieluhr / Stoppuhr</h2>
+        <div class="stopwatch-panel"><div class="stopwatch-time" id="singleStopwatch">00:00</div><div class="stopwatch-status" id="singleStopwatchStatus">Bereit</div><div class="stopwatch-actions"><button type="button" id="singleStartBtn">Spiel starten</button><button class="secondary" type="button" id="singlePauseBtn">Pause</button><button class="secondary danger" type="button" id="singleEndBtn">Spiel beenden</button><button class="secondary" type="button" id="singleResetBtn">Zurücksetzen</button></div></div>
+      </section>
+      <section class="panel">
+        <div class="button-row"><button class="secondary" type="button" id="downloadSingleParticipantBtn">Öffentliche Ansicht speichern</button></div>
+        <p class="status-note">Der Export ist nur ein Offline-Snapshot. Echte Live-Veröffentlichung auf anderen Geräten folgt mit Firebase.</p>
+      </section>
+    </div>
   </section>
-
-</section>
-
-<section class="module-view hidden" id="timekeepingModule">
-  <div class="view-heading"><h2>Zeitnahme</h2><span class="admin-label">Spielleitung</span></div>
-  <div class="view-note timekeeping-intro"><div><strong>Stoppuhr und Timer</strong><small>Stoppuhr und Timer sind bewusst unabhängig vom Turnierplan nutzbar.</small></div></div>
-  <section class="timekeeping-card" aria-label="Zeitnahme">
-    <div class="timekeeping-mode-switcher" role="tablist" aria-label="Zeitmodus auswählen">
-      <button class="timekeeping-mode-btn active" id="clockStopwatchModeBtn" type="button" role="tab" aria-selected="true">Stoppuhr</button>
-      <button class="timekeeping-mode-btn" id="clockTimerModeBtn" type="button" role="tab" aria-selected="false">Timer</button>
-    </div>
-
-    <div class="timekeeping-settings hidden" id="clockTimerSettings">
-      <label>Minuten<input id="clockTimerMinutes" type="number" min="0" max="999" step="1" value="5" inputmode="numeric"></label>
-      <label>Sekunden<input id="clockTimerSeconds" type="number" min="0" max="59" step="1" value="0" inputmode="numeric"></label>
-    </div>
-
-    <span class="timekeeping-label" id="clockDisplayLabel">Minuten : Sekunden</span>
-    <div class="timekeeping-display" id="clockDisplay" role="timer" aria-live="off">00:00</div>
-
-    <div class="timekeeping-actions">
-      <button id="clockStartBtn" type="button">Start</button>
-      <button id="clockStopBtn" type="button" disabled>Stop</button>
-      <button id="clockResetBtn" type="button">Reset</button>
-    </div>
-    <div class="timekeeping-status" id="clockStatus" aria-live="polite">Bereit</div>
-  </section>
-</section>
 </main>
-<script type="application/json" id="prefilledState">{}</script>
-<script src="./app-1.js"></script>
-<script src="./app-2a.js"></script>
-<script src="./app-2b.js"></script>
-<script src="./app-2c.js"></script>
-<script src="./app-2d.js"></script>
+<script>
+(function(){
+'use strict';
+var $=function(id){return document.getElementById(id);};
+var participantView=$('participantView'),adminView=$('adminView'),participantTab=$('participantTab'),adminTab=$('adminTab');
+var publicTournamentView=$('publicTournamentView'),publicSingleMatchView=$('publicSingleMatchView'),adminTournamentSection=$('adminTournamentSection'),adminSingleMatchSection=$('adminSingleMatchSection');
+var eventTitleInput=$('eventTitleInput'),eventTypeSelect=$('eventTypeSelect'),titleDisplay=$('tournamentTitleDisplay');
+var tournamentDateInput=$('tournamentDateInput'),downloadPdfBtn=$('downloadPdfBtn');
+var startTimeInput=$('startTimeInput'),durationInput=$('durationInput'),breakInput=$('breakInput'),fieldCountInput=$('fieldCountInput'),gameModeSelect=$('gameModeSelect'),roundBreakBox=$('roundBreakBox'),roundBreakInput=$('roundBreakInput'),scoreTrackingInput=$('scoreTrackingInput');
+var teamEditor=$('teamEditor'),addTeamBtn=$('addTeamBtn'),participantTeamFilter=$('participantTeamFilter'),adminTeamFilter=$('adminTeamFilter'),participantResetBtn=$('participantResetBtn'),adminResetBtn=$('adminResetBtn');
+var participantCards=$('participantCards'),adminCards=$('adminCards'),participantTableBody=document.querySelector('#participantScheduleTable tbody'),participantScheduleHead=$('participantScheduleHead');
+var participantStandingsSection=$('participantStandingsSection'),participantStandingsBody=$('participantStandingsBody'),adminStandingsSection=$('adminStandingsSection'),adminStandingsBody=$('adminStandingsBody');
+var gamesSummary=$('gamesSummary'),endSummary=$('endSummary'),participantCountHint=$('participantCountHint'),adminCountHint=$('adminCountHint'),adminScoreNote=$('adminScoreNote');
+var currentMatches=[],scores={};
 
+function esc(v){var m={'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'};return String(v).replace(/[&<>'"]/g,function(c){return m[c];});}
+function clampInt(v,min,max,fallback){var n=parseInt(v,10);if(isNaN(n))n=fallback;return Math.max(min,Math.min(max,n));}
+function fmtClock(sec){sec=Math.max(0,Math.floor(sec));var m=Math.floor(sec/60),s=sec%60;return String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');}
+function fmtMinute(t){t=((t%1440)+1440)%1440;return String(Math.floor(t/60)).padStart(2,'0')+':'+String(t%60).padStart(2,'0');}
+function timeMinutes(input){var raw=(input.value||'').trim(),x=raw.match(/^([01]\d|2[0-3]):([0-5]\d)$/);return x?Number(x[1])*60+Number(x[2]):null;}
+function eventTitle(){var v=(eventTitleInput.value||'').trim().slice(0,80);return v||'Fußball';}
+function updateTitle(){titleDisplay.textContent=eventTitle();document.title=eventTitle()+' – Fußball';}
+function isTournament(){return eventTypeSelect.value==='tournament';}
+function switchView(view){var admin=view==='admin';participantView.classList.toggle('hidden',admin);adminView.classList.toggle('hidden',!admin);participantTab.classList.toggle('active',!admin);adminTab.classList.toggle('active',admin);participantTab.setAttribute('aria-selected',String(!admin));adminTab.setAttribute('aria-selected',String(admin));try{history.replaceState(null,'',admin?'#admin':'#public');}catch(e){}}
+function switchEventMode(){var tournament=isTournament();publicTournamentView.classList.toggle('hidden',!tournament);publicSingleMatchView.classList.toggle('hidden',tournament);adminTournamentSection.classList.toggle('hidden',!tournament);adminSingleMatchSection.classList.toggle('hidden',tournament);renderAll();renderSingleMatch();}
+
+/* Turnierlogik aus v3.1 */
+function scoreTrackingEnabled(){return scoreTrackingInput.value==='yes';}
+function roundBreakMinutes(){return gameModeSelect.value==='double'?clampInt(roundBreakInput.value,0,240,0):0;}
+function matchStartMinute(m,base,dur,pause){return base+m.slot*(dur+pause)+(m.phase==='Rückrunde'?roundBreakMinutes():0);}
+function matchKey(m){return JSON.stringify([m.phase,m.home,m.away]);}
+function scoreValue(key,side){var s=scores[key];if(!s)return '';var v=s[side];return v===null||v===undefined?'':String(v);}
+function completeScore(m){var s=scores[matchKey(m)];return !!(s&&s.home!==null&&s.home!==undefined&&s.away!==null&&s.away!==undefined);}
+function resultText(m){return completeScore(m)?scores[matchKey(m)].home+' : '+scores[matchKey(m)].away:'– : –';}
+function kickoffTeamName(m){return m.home;}
+function teamDisplay(name,isKickoff,isAway){return isKickoff?(isAway?esc(name)+' ⚽':'⚽ '+esc(name)):esc(name);}
+function getTeams(){var a=[];teamEditor.querySelectorAll('.team-input').forEach(function(input){var n=(input.value||'').trim().slice(0,40);if(n&&a.indexOf(n)===-1)a.push(n);});return a;}
+function addTeamRow(name){var row=document.createElement('div');row.className='team-row';row.innerHTML='<input class="team-input" type="text" maxlength="40" value="'+esc(name||'')+'"><button class="icon-btn remove-team-btn" type="button">Entfernen</button>';teamEditor.appendChild(row);return row.querySelector('input');}
+function buildGames(teams,reverse,phase){var list=[];for(var i=0;i<teams.length;i++)for(var j=i+1;j<teams.length;j++)list.push(reverse?{home:teams[j],away:teams[i],phase:phase}:{home:teams[i],away:teams[j],phase:phase});return list;}
+function packIntoSlots(games,fieldCount,startSlot){var remaining=games.slice(),slots=[],lastPlayed={},slotIndex=startSlot||0;while(remaining.length){var slot=[],used={};while(slot.length<fieldCount){var best=-1,bestScore=-Infinity;for(var i=0;i<remaining.length;i++){var g=remaining[i];if(used[g.home]||used[g.away])continue;var hGap=lastPlayed[g.home]===undefined?1000:slotIndex-lastPlayed[g.home],aGap=lastPlayed[g.away]===undefined?1000:slotIndex-lastPlayed[g.away],score=Math.min(hGap,aGap)*10000+(hGap+aGap)*10-i;if(score>bestScore){bestScore=score;best=i;}}if(best===-1)break;var chosen=remaining.splice(best,1)[0];slot.push(chosen);used[chosen.home]=true;used[chosen.away]=true;}if(!slot.length)slot.push(remaining.shift());slot.forEach(function(g,idx){g.field=idx+1;g.slot=slotIndex;lastPlayed[g.home]=slotIndex;lastPlayed[g.away]=slotIndex;});slots.push(slot);slotIndex++;}return {slots:slots,nextSlot:slotIndex};}
+function roundRobinSlots(teams,reverse,phase,startSlot){var rotation=teams.slice();if(rotation.length%2===1)rotation.push(null);var rounds=rotation.length-1,slots=[];for(var r=0;r<rounds;r++){var slot=[];for(var i=0;i<rotation.length/2;i++){var a=rotation[i],b=rotation[rotation.length-1-i];if(a!==null&&b!==null){var g=reverse?{home:b,away:a,phase:phase}:{home:a,away:b,phase:phase};g.field=slot.length+1;g.slot=startSlot+r;slot.push(g);}}slots.push(slot);var last=rotation.pop();rotation.splice(1,0,last);}return {slots:slots,nextSlot:startSlot+rounds};}
+function schedulePhase(teams,effective,maxPossible,reverse,phase,startSlot){return effective===maxPossible?roundRobinSlots(teams,reverse,phase,startSlot):packIntoSlots(buildGames(teams,reverse,phase),effective,startSlot);}
+function makeSchedule(teams){var maxPossible=Math.max(1,Math.floor(teams.length/2)),fields=clampInt(fieldCountInput.value,1,10,2);fieldCountInput.value=fields;var effective=Math.min(fields,maxPossible),allSlots=[],slotNo=0,first=schedulePhase(teams,effective,maxPossible,false,'Hinrunde',slotNo);allSlots=allSlots.concat(first.slots);slotNo=first.nextSlot;if(gameModeSelect.value==='double'){var second=schedulePhase(teams,effective,maxPossible,true,'Rückrunde',slotNo);allSlots=allSlots.concat(second.slots);}var matches=[],no=1;allSlots.forEach(function(slot){slot.forEach(function(g){g.no=no++;matches.push(g);});});return matches;}
+function updateFilters(teams){[participantTeamFilter,adminTeamFilter].forEach(function(sel){var current=sel.value||'all',h='<option value="all">Alle Mannschaften</option>';teams.forEach(function(t){h+='<option value="'+esc(t)+'">'+esc(t)+'</option>';});sel.innerHTML=h;sel.value=teams.indexOf(current)!==-1?current:'all';});}
+function slotsFromMatches(){var slots={},order=[];currentMatches.forEach(function(m){if(!slots[m.slot]){slots[m.slot]=[];order.push(m.slot);}slots[m.slot].push(m);});order.sort(function(a,b){return a-b;});return {slots:slots,order:order};}
+function renderCards(container,isAdmin){var teams=getTeams(),base=timeMinutes(startTimeInput),dur=clampInt(durationInput.value,1,240,10),pause=clampInt(breakInput.value,0,240,5),grouped=slotsFromMatches(),html='',phaseCounters={};if(!currentMatches.length){container.innerHTML='<div class="empty-state">Bitte mindestens zwei unterschiedliche Mannschaften eintragen.</div>';return;}grouped.order.forEach(function(slotNo){var matches=grouped.slots[slotNo],phase=matches[0].phase;phaseCounters[phase]=(phaseCounters[phase]||0)+1;var s=matchStartMinute(matches[0],base,dur,pause),e=s+dur,played={};matches.forEach(function(m){played[m.home]=true;played[m.away]=true;});var resting=teams.filter(function(t){return !played[t];});if(gameModeSelect.value==='double'&&phaseCounters[phase]===1){if(phase==='Rückrunde'&&roundBreakMinutes()>0)html+='<div class="phase-separator">Rückrunde · zusätzliche Pause vorher: '+roundBreakMinutes()+' Min.</div>';else html+='<div class="phase-separator">'+esc(phase)+'</div>';}html+='<section class="slot-block" data-slot="'+slotNo+'"><div class="slot-header"><span>'+(gameModeSelect.value==='double'?esc(phase)+' · ':'')+'Runde '+phaseCounters[phase]+'</span><span>'+fmtMinute(s)+' – '+fmtMinute(e)+'</span></div>'+(resting.length?'<div class="slot-pause">'+esc('Spielpause: '+resting.join(', '))+'</div>':'');matches.forEach(function(m){var key=matchKey(m),middle=scoreTrackingEnabled()?'<strong class="public-result">'+resultText(m)+'</strong>':'<strong>vs.</strong>',homeKick=true;html+='<article class="match-card" data-home="'+esc(m.home)+'" data-away="'+esc(m.away)+'" data-key="'+esc(key)+'"><div class="match-topline"><span class="badge">Spiel '+m.no+' · Feld '+m.field+'</span><span class="time">'+fmtMinute(s)+' – '+fmtMinute(e)+'</span></div><div class="teams"><span>'+teamDisplay(m.home,homeKick,false)+'</span>'+middle+'<span>'+teamDisplay(m.away,false,true)+'</span></div><div class="meta"><span>'+dur+' Min. Spielzeit</span><span>danach '+pause+' Min. Pause</span></div>';if(isAdmin&&scoreTrackingEnabled())html+='<div class="score-editor active"><div class="score-side"><span>'+esc(m.home)+'</span><input class="score-input" type="number" min="0" max="99" inputmode="numeric" data-score-side="home" value="'+esc(scoreValue(key,'home'))+'"></div><span class="score-sep">:</span><div class="score-side"><span>'+esc(m.away)+'</span><input class="score-input" type="number" min="0" max="99" inputmode="numeric" data-score-side="away" value="'+esc(scoreValue(key,'away'))+'"></div></div>';html+='</article>';});html+='</section>';});container.innerHTML=html;}
+function renderParticipantTable(){var showResult=scoreTrackingEnabled(),head='<tr><th>Nr.</th><th>Start</th><th>Ende</th><th>Feld</th><th>Mannschaft A</th><th>Mannschaft B</th>'+(showResult?'<th>Ergebnis</th>':'')+'</tr>',base=timeMinutes(startTimeInput),dur=clampInt(durationInput.value,1,240,10),pause=clampInt(breakInput.value,0,240,5),rows='';participantScheduleHead.innerHTML=head;currentMatches.forEach(function(m){var s=matchStartMinute(m,base,dur,pause),e=s+dur;rows+='<tr data-home="'+esc(m.home)+'" data-away="'+esc(m.away)+'"><td>'+m.no+'</td><td>'+fmtMinute(s)+'</td><td>'+fmtMinute(e)+'</td><td>Feld '+m.field+'</td><td>'+teamDisplay(m.home,true,false)+'</td><td>'+esc(m.away)+'</td>'+(showResult?'<td class="result-cell">'+resultText(m)+'</td>':'')+'</tr>';});participantTableBody.innerHTML=rows;}
+function standingsRows(){var teams=getTeams(),stats={};teams.forEach(function(t){stats[t]={team:t,played:0,w:0,d:0,l:0,gf:0,ga:0,pts:0};});currentMatches.forEach(function(m){var s=scores[matchKey(m)];if(!s||s.home===null||s.home===undefined||s.away===null||s.away===undefined||!stats[m.home]||!stats[m.away])return;var h=stats[m.home],a=stats[m.away];h.played++;a.played++;h.gf+=s.home;h.ga+=s.away;a.gf+=s.away;a.ga+=s.home;if(s.home>s.away){h.w++;a.l++;h.pts+=3;}else if(s.home<s.away){a.w++;h.l++;a.pts+=3;}else{h.d++;a.d++;h.pts++;a.pts++;}});var arr=Object.keys(stats).map(function(k){return stats[k];});arr.sort(function(a,b){return b.pts-a.pts||((b.gf-b.ga)-(a.gf-a.ga))||b.gf-a.gf||a.team.localeCompare(b.team,'de');});return arr.map(function(s,i){var diff=s.gf-s.ga;return '<tr><td>'+(i+1)+'</td><td>'+esc(s.team)+'</td><td class="num">'+s.played+'</td><td class="num">'+s.w+'</td><td class="num">'+s.d+'</td><td class="num">'+s.l+'</td><td class="num">'+s.gf+':'+s.ga+'</td><td class="num">'+(diff>0?'+':'')+diff+'</td><td class="num"><strong>'+s.pts+'</strong></td></tr>';}).join('');}
+function renderStandings(){var show=scoreTrackingEnabled();participantStandingsSection.classList.toggle('hidden',!show);adminStandingsSection.classList.toggle('hidden',!show);var rows=show?standingsRows():'';participantStandingsBody.innerHTML=rows;adminStandingsBody.innerHTML=rows;}
+function applyFilter(container,tbody,select,hint){var selected=select.value||'all',visible=0;container.querySelectorAll('.match-card').forEach(function(card){var ok=selected==='all'||card.dataset.home===selected||card.dataset.away===selected;card.classList.toggle('hidden',!ok);if(ok)visible++;});container.querySelectorAll('.slot-block').forEach(function(block){var has=Array.prototype.some.call(block.querySelectorAll('.match-card'),function(card){return !card.classList.contains('hidden');});block.classList.toggle('hidden',!has);});if(tbody)tbody.querySelectorAll('tr').forEach(function(row){var ok=selected==='all'||row.dataset.home===selected||row.dataset.away===selected;row.classList.toggle('hidden',!ok);});hint.textContent=visible+(visible===1?' Spiel sichtbar':' Spiele sichtbar');}
+function applyParticipantFilter(){applyFilter(participantCards,participantTableBody,participantTeamFilter,participantCountHint);}function applyAdminFilter(){applyFilter(adminCards,null,adminTeamFilter,adminCountHint);}
+function renderAll(){updateTitle();roundBreakBox.classList.toggle('hidden',gameModeSelect.value!=='double');if(!isTournament())return;var teams=getTeams();updateFilters(teams);var base=timeMinutes(startTimeInput);if(base===null)return;var dur=clampInt(durationInput.value,1,240,10),pause=clampInt(breakInput.value,0,240,5);currentMatches=teams.length>=2?makeSchedule(teams):[];var maxEnd=base;currentMatches.forEach(function(m){maxEnd=Math.max(maxEnd,matchStartMinute(m,base,dur,pause)+dur);});gamesSummary.textContent=currentMatches.length+(currentMatches.length===1?' Spiel':' Spiele');endSummary.textContent='Ende '+fmtMinute(maxEnd)+' Uhr';$('participantStart').textContent=fmtMinute(base)+' Uhr';$('participantDuration').textContent=dur+' Minuten';$('participantBreak').textContent=pause+' Minuten';$('participantFields').textContent=String(Math.min(clampInt(fieldCountInput.value,1,10,2),Math.max(1,Math.floor(teams.length/2))));$('participantMode').textContent=gameModeSelect.value==='double'?'Hin- und Rückrunde':'Hinrunde';$('participantGames').textContent=currentMatches.length+(currentMatches.length===1?' Spiel':' Spiele');$('participantEnd').textContent='Ende '+fmtMinute(maxEnd)+' Uhr';renderCards(participantCards,false);renderCards(adminCards,true);renderParticipantTable();renderStandings();adminScoreNote.textContent=scoreTrackingEnabled()?'Ergebnisse werden hier zentral gepflegt und erscheinen sofort in der öffentlichen Ansicht.':'Die Torerfassung ist aktuell deaktiviert.';applyParticipantFilter();applyAdminFilter();}
+function parseScore(v){if(v==='')return null;var n=parseInt(v,10);if(isNaN(n)||n<0)return null;return Math.min(99,n);}
+function updateScoreFromInput(input){var card=input.closest('.match-card'),key=card?card.dataset.key:'';if(!key)return;var hi=card.querySelector('[data-score-side="home"]'),ai=card.querySelector('[data-score-side="away"]'),h=parseScore(hi.value),a=parseScore(ai.value);if(h===null&&a===null)delete scores[key];else scores[key]={home:h,away:a};renderAll();}
+
+/* PDF-Erzeugung aus der bisherigen PWA */
+function formatTournamentDate(value){
+  var m=String(value||'').match(/^(\d{4})-(\d{2})-(\d{2})$/);
+  return m?m[3]+'.'+m[2]+'.'+m[1]:String(value||'');
+}
+function safeFilePart(value){
+  return String(value||'Turnier')
+    .replace(/ä/g,'ae').replace(/ö/g,'oe').replace(/ü/g,'ue').replace(/ß/g,'ss')
+    .replace(/Ä/g,'Ae').replace(/Ö/g,'Oe').replace(/Ü/g,'Ue')
+    .replace(/[^A-Za-z0-9_-]+/g,'_').replace(/^_+|_+$/g,'').slice(0,60)||'Turnier';
+}
+function pdfWinAnsiHex(value){
+  var replacements={'–':'-','—':'-','−':'-','“':'"','”':'"','„':'"','’':"'",'‘':"'",'…':'...','⚽':'*','\u00a0':' '};
+  var text=String(value==null?'':value),hex='';
+  for(var i=0;i<text.length;i++){
+    var ch=text.charAt(i);
+    if(replacements[ch]!==undefined){
+      var rep=replacements[ch];
+      for(var r=0;r<rep.length;r++)hex+=rep.charCodeAt(r).toString(16).padStart(2,'0');
+      continue;
+    }
+    var code=text.charCodeAt(i);
+    if(code>=32&&code<=255)hex+=code.toString(16).padStart(2,'0');
+    else if(code===9||code===10||code===13)hex+='20';
+    else hex+='3f';
+  }
+  return '<'+hex.toUpperCase()+'>';
+}
+function pdfFitText(value,width,fontSize){
+  var text=String(value==null?'':value).replace(/⚽/g,'').trim();
+  var max=Math.max(2,Math.floor((width-10)/(fontSize*.54)));
+  return text.length<=max?text:text.slice(0,Math.max(1,max-2))+'..';
+}
+function buildSchedulePdf(){
+  var pageW=841.89,pageH=595.28,margin=28,tableW=pageW-margin*2,headerH=24,rowH=24;
+  var showResult=scoreTrackingEnabled(),base=timeMinutes(startTimeInput),dur=clampInt(durationInput.value,1,240,10),pause=clampInt(breakInput.value,0,240,5),teams=getTeams();
+  var columns=showResult?
+    [{label:'Nr.',w:32},{label:'Start',w:52},{label:'Ende',w:52},{label:'Feld',w:55},{label:'Mannschaft A',w:260},{label:'Mannschaft B',w:260},{label:'Ergebnis',w:76}]:
+    [{label:'Nr.',w:32},{label:'Start',w:52},{label:'Ende',w:52},{label:'Feld',w:55},{label:'Mannschaft A',w:298},{label:'Mannschaft B',w:298}];
+  var widthSum=columns.reduce(function(sum,c){return sum+c.w;},0),scale=tableW/widthSum;
+  columns.forEach(function(c){c.w*=scale;});
+  var rows=currentMatches.map(function(m){var start=matchStartMinute(m,base,dur,pause),end=start+dur;var row=[String(m.no),fmtMinute(start),fmtMinute(end),'Feld '+m.field,m.home,m.away];if(showResult)row.push(resultText(m));return row;});
+
+  var infoTop=82,infoGap=14,leftW=tableW*0.67,rightW=tableW-leftW-infoGap;
+  var teamCols=teams.length>7?2:1,teamRows=Math.max(1,Math.ceil(teams.length/teamCols));
+  var infoH=Math.max(72,34+teamRows*14);
+  var firstTableTop=infoTop+infoH+18,nextTableTop=88,usableBottom=pageH-34;
+  var firstCapacity=Math.max(1,Math.floor((usableBottom-firstTableTop-headerH)/rowH));
+  var nextCapacity=Math.max(1,Math.floor((usableBottom-nextTableTop-headerH)/rowH));
+  var remaining=Math.max(0,rows.length-firstCapacity);
+  var pageCount=1+(remaining?Math.ceil(remaining/nextCapacity):0),streams=[];
+
+  function yFromTop(top){return pageH-top;}
+  function textCmd(x,baselineTop,font,size,value,gray){return (gray===undefined?'0':gray)+' g BT /'+font+' '+size+' Tf 1 0 0 1 '+x.toFixed(2)+' '+yFromTop(baselineTop).toFixed(2)+' Tm '+pdfWinAnsiHex(value)+' Tj ET\n';}
+  function fillRect(x,top,w,h,r,g,b){return r+' '+g+' '+b+' rg '+x.toFixed(2)+' '+(pageH-top-h).toFixed(2)+' '+w.toFixed(2)+' '+h.toFixed(2)+' re f\n';}
+  function strokeRect(x,top,w,h,gray){return (gray===undefined?'0.76':gray)+' G 0.6 w '+x.toFixed(2)+' '+(pageH-top-h).toFixed(2)+' '+w.toFixed(2)+' '+h.toFixed(2)+' re S\n';}
+
+  function drawInfoBlock(){
+    var out='',rightX=margin+leftW+infoGap;
+    out+=fillRect(margin,infoTop,leftW,infoH,'0.965','0.980','0.995');
+    out+=strokeRect(margin,infoTop,leftW,infoH,'0.78');
+    out+=textCmd(margin+10,infoTop+18,'F2',10,'Teilnehmende Vereine',0.12);
+
+    var colW=(leftW-20-(teamCols-1)*12)/teamCols;
+    teams.forEach(function(team,i){
+      var col=teamCols===1?0:Math.floor(i/teamRows),row=teamCols===1?i:(i%teamRows);
+      var x=margin+10+col*(colW+12),y=infoTop+36+row*14;
+      out+=textCmd(x,y,'F1',8.8,'- '+pdfFitText(team,colW-4,8.8),0);
+    });
+
+    out+=fillRect(rightX,infoTop,rightW,infoH,'0.975','0.985','0.995');
+    out+=strokeRect(rightX,infoTop,rightW,infoH,'0.78');
+    out+=textCmd(rightX+10,infoTop+18,'F2',10,'Rahmendaten',0.12);
+    out+=textCmd(rightX+10,infoTop+40,'F1',9.5,'Spieldauer: '+dur+' Minuten',0);
+    out+=textCmd(rightX+10,infoTop+58,'F1',9.5,'Pause: '+pause+' Minuten',0);
+    return out;
+  }
+
+  function rowsForPage(pageIndex){
+    if(pageIndex===0)return rows.slice(0,firstCapacity);
+    var from=firstCapacity+(pageIndex-1)*nextCapacity;
+    return rows.slice(from,from+nextCapacity);
+  }
+
+  for(var p=0;p<pageCount;p++){
+    var stream='',tableTop=p===0?firstTableTop:nextTableTop;
+    stream+=textCmd(margin,32,'F2',18,pdfFitText(eventTitle(),tableW,18),0);
+    stream+=textCmd(margin,52,'F1',10,'Datum: '+formatTournamentDate(tournamentDateInput.value),0.28);
+    stream+=textCmd(margin,72,'F2',11,p===0?'Spielplan':'Spielplan - Fortsetzung',0.20);
+    if(p===0)stream+=drawInfoBlock();
+
+    var x=margin;
+    columns.forEach(function(c){stream+=fillRect(x,tableTop,c.w,headerH,'0','0.247','0.451');stream+=strokeRect(x,tableTop,c.w,headerH,'0.35');stream+=textCmd(x+5,tableTop+16,'F2',8.5,c.label,1);x+=c.w;});
+    var pageRows=rowsForPage(p);
+    pageRows.forEach(function(row,ri){var top=tableTop+headerH+ri*rowH;x=margin;if(ri%2===1)stream+=fillRect(margin,top,tableW,rowH,'0.968','0.982','1');columns.forEach(function(c,ci){stream+=strokeRect(x,top,c.w,rowH,'0.78');stream+=textCmd(x+5,top+16,'F1',8.5,pdfFitText(row[ci],c.w,8.5),0);x+=c.w;});});
+    stream+=textCmd(margin,pageH-14,'F1',8,'Seite '+(p+1)+' von '+pageCount,0.40);
+    streams.push(stream);
+  }
+
+  var objects=[];
+  objects[1]='<< /Type /Catalog /Pages 2 0 R >>';
+  objects[3]='<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>';
+  objects[4]='<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>';
+  var kids=[];
+  streams.forEach(function(stream,i){var pageId=5+i*2,contentId=pageId+1;kids.push(pageId+' 0 R');objects[pageId]='<< /Type /Page /Parent 2 0 R /MediaBox [0 0 '+pageW+' '+pageH+'] /Resources << /Font << /F1 3 0 R /F2 4 0 R >> >> /Contents '+contentId+' 0 R >>';objects[contentId]='<< /Length '+stream.length+' >>\nstream\n'+stream+'endstream';});
+  objects[2]='<< /Type /Pages /Kids ['+kids.join(' ')+'] /Count '+streams.length+' >>';
+  var pdf='%PDF-1.4\n%Turnierleitung\n',offsets=[0];
+  for(var id=1;id<objects.length;id++){offsets[id]=pdf.length;pdf+=id+' 0 obj\n'+objects[id]+'\nendobj\n';}
+  var xref=pdf.length;pdf+='xref\n0 '+objects.length+'\n0000000000 65535 f \n';
+  for(var j=1;j<objects.length;j++)pdf+=String(offsets[j]).padStart(10,'0')+' 00000 n \n';
+  pdf+='trailer\n<< /Size '+objects.length+' /Root 1 0 R >>\nstartxref\n'+xref+'\n%%EOF';
+  return new TextEncoder().encode(pdf);
+}
+function downloadSchedulePdf(){
+  try{
+    if(!tournamentDateInput||!tournamentDateInput.value){alert('Bitte zuerst das Turnierdatum auswählen.');if(tournamentDateInput)tournamentDateInput.focus();return;}
+    if(!currentMatches.length){alert('Bitte zuerst einen Spielplan mit mindestens einem Spiel erstellen.');return;}
+    var bytes=buildSchedulePdf(),blob=new Blob([bytes],{type:'application/pdf'}),anchor=document.createElement('a');
+    anchor.download='Spielplan_'+safeFilePart(eventTitle())+'_'+tournamentDateInput.value+'.pdf';
+    anchor.href=URL.createObjectURL(blob);anchor.style.display='none';document.body.appendChild(anchor);anchor.click();
+    setTimeout(function(){URL.revokeObjectURL(anchor.href);if(anchor.parentNode)anchor.parentNode.removeChild(anchor);},1500);
+  }catch(error){
+    console.error(error);
+    alert('Die PDF-Datei konnte nicht erzeugt werden.');
+  }
+}
+
+
+/* Stoppuhr Turnier */
+var tournamentTimer={elapsed:0,running:false,startedAt:0,interval:null};
+function timerElapsed(t){return t.elapsed+(t.running?(Date.now()-t.startedAt)/1000:0);}
+function renderTournamentTimer(){$('tournamentStopwatch').textContent=fmtClock(timerElapsed(tournamentTimer));$('tournamentStopwatchStatus').textContent=tournamentTimer.running?'Läuft':(tournamentTimer.elapsed>0?'Pausiert':'Bereit');}
+function ensureTournamentInterval(){clearInterval(tournamentTimer.interval);tournamentTimer.interval=setInterval(renderTournamentTimer,250);}
+function startTournamentTimer(){if(tournamentTimer.running)return;tournamentTimer.startedAt=Date.now();tournamentTimer.running=true;ensureTournamentInterval();renderTournamentTimer();}
+function pauseTournamentTimer(){if(!tournamentTimer.running)return;tournamentTimer.elapsed=timerElapsed(tournamentTimer);tournamentTimer.running=false;clearInterval(tournamentTimer.interval);renderTournamentTimer();}
+function resetTournamentTimer(){tournamentTimer.elapsed=0;tournamentTimer.running=false;clearInterval(tournamentTimer.interval);renderTournamentTimer();}
+
+/* Einzelspiel */
+var single={homeScore:0,awayScore:0,elapsed:0,running:false,startedAt:0,status:'ready',interval:null};
+function singleElapsed(){return single.elapsed+(single.running?(Date.now()-single.startedAt)/1000:0);}
+function singleStatusLabel(){return single.status==='live'?'Live':single.status==='paused'?'Pausiert':single.status==='finished'?'Beendet':'Noch nicht gestartet';}
+function setPill(el){var label=singleStatusLabel();el.textContent=label;el.className='status-pill'+(single.status==='live'?' live':single.status==='paused'?' paused':single.status==='finished'?' finished':'');}
+function renderSingleMatch(){updateTitle();var home=($('singleHomeInput').value||'Heim').trim()||'Heim',away=($('singleAwayInput').value||'Gast').trim()||'Gast',kickoff=$('singleKickoffInput').value||'--:--',dur=clampInt($('singleDurationInput').value,1,240,60),clock=fmtClock(singleElapsed()),status=singleStatusLabel();$('adminHomeTeam').textContent=home;$('adminAwayTeam').textContent=away;$('adminHomeScore').textContent=single.homeScore;$('adminAwayScore').textContent=single.awayScore;$('singleStopwatch').textContent=clock;$('singleStopwatchStatus').textContent=status;setPill($('adminSingleStatusPill'));$('publicHomeTeam').textContent=home;$('publicAwayTeam').textContent=away;$('publicHomeScore').textContent=single.homeScore;$('publicAwayScore').textContent=single.awayScore;$('publicMatchClock').textContent=clock;$('publicMatchClockSummary').textContent=clock;$('publicMatchKickoff').textContent=kickoff+' Uhr';$('publicMatchDuration').textContent=dur+' Minuten';$('publicMatchStatusSummary').textContent=status;$('publicMatchInfo').textContent='Anstoß '+kickoff+' Uhr · geplant '+dur+' Min.';setPill($('publicMatchStatusPill'));$('singleStartBtn').textContent=single.status==='paused'?'Fortsetzen':single.status==='live'?'Läuft':'Spiel starten';$('singlePauseBtn').disabled=!single.running;$('singleEndBtn').disabled=single.status==='finished'||single.status==='ready';}
+function ensureSingleInterval(){clearInterval(single.interval);single.interval=setInterval(renderSingleMatch,250);}
+function startSingle(){if(single.status==='finished'||single.running)return;single.startedAt=Date.now();single.running=true;single.status='live';ensureSingleInterval();renderSingleMatch();}
+function pauseSingle(){if(!single.running)return;single.elapsed=singleElapsed();single.running=false;single.status='paused';clearInterval(single.interval);renderSingleMatch();}
+function endSingle(){if(single.running){single.elapsed=singleElapsed();single.running=false;}single.status='finished';clearInterval(single.interval);renderSingleMatch();}
+function resetSingle(){if(!confirm('Spielstand und Spielzeit wirklich zurücksetzen?'))return;clearInterval(single.interval);single={homeScore:0,awayScore:0,elapsed:0,running:false,startedAt:0,status:'ready',interval:null};renderSingleMatch();}
+function changeGoal(side,delta){single[side+'Score']=Math.max(0,single[side+'Score']+delta);renderSingleMatch();}
+
+/* Offline-Snapshot der aktuellen öffentlichen Ansicht */
+function downloadPublicSnapshot(){try{var clone=document.documentElement.cloneNode(true),body=clone.querySelector('body'),admin=clone.querySelector('#adminView'),switcher=clone.querySelector('.view-switcher'),scripts=clone.querySelectorAll('script');if(admin)admin.remove();if(switcher)switcher.remove();scripts.forEach(function(s){s.remove();});var p=clone.querySelector('#participantView');if(p){p.classList.remove('hidden');p.removeAttribute('id');}var pubT=clone.querySelector('#publicTournamentView'),pubM=clone.querySelector('#publicSingleMatchView');if(pubT)pubT.classList.toggle('hidden',!isTournament());if(pubM)pubM.classList.toggle('hidden',isTournament());var note=clone.querySelector('.view-note small');if(note)note.textContent='Offline-Snapshot. Diese Datei wird nach dem Speichern nicht automatisch aktualisiert.';var title=clone.querySelector('title');if(title)title.textContent=eventTitle()+' – öffentliche Ansicht';if(isTournament()){var filter=clone.querySelector('#participantTeamFilter');if(filter)filter.value='all';clone.querySelectorAll('.match-card,.slot-block,#participantScheduleTable tbody tr').forEach(function(el){el.classList.remove('hidden');});var inline=document.createElement('script');inline.textContent="(function(){var s=document.getElementById('participantTeamFilter'),r=document.getElementById('participantResetBtn'),c=document.getElementById('participantCards'),t=document.querySelector('#participantScheduleTable tbody'),h=document.getElementById('participantCountHint');function a(){var v=s?s.value:'all',n=0;c&&c.querySelectorAll('.match-card').forEach(function(x){var o=v==='all'||x.dataset.home===v||x.dataset.away===v;x.classList.toggle('hidden',!o);if(o)n++;});c&&c.querySelectorAll('.slot-block').forEach(function(b){b.classList.toggle('hidden',!Array.prototype.some.call(b.querySelectorAll('.match-card'),function(x){return !x.classList.contains('hidden');}));});t&&t.querySelectorAll('tr').forEach(function(x){x.classList.toggle('hidden',!(v==='all'||x.dataset.home===v||x.dataset.away===v));});if(h)h.textContent=n+(n===1?' Spiel sichtbar':' Spiele sichtbar');}if(s)s.addEventListener('change',a);if(r)r.addEventListener('click',function(){s.value='all';a();});a();})();";body.appendChild(inline);}var blob=new Blob(['<!doctype html>\n'+clone.outerHTML],{type:'text/html;charset=utf-8'}),a=document.createElement('a');a.download=(isTournament()?'Turnier_':'Spiel_')+'Teilnehmeransicht_v4.html';a.href=URL.createObjectURL(blob);a.click();setTimeout(function(){URL.revokeObjectURL(a.href);},1000);}catch(e){console.error(e);alert('Die öffentliche Ansicht konnte nicht gespeichert werden.');}}
+
+participantTab.addEventListener('click',function(){switchView('public');});adminTab.addEventListener('click',function(){switchView('admin');});
+eventTitleInput.addEventListener('input',function(){this.value=this.value.slice(0,80);updateTitle();});eventTypeSelect.addEventListener('change',switchEventMode);
+addTeamBtn.addEventListener('click',function(){var i=addTeamRow('');i.focus();renderAll();});teamEditor.addEventListener('click',function(e){if(e.target.classList.contains('remove-team-btn')){if(teamEditor.querySelectorAll('.team-row').length<=2){alert('Mindestens zwei Mannschaften werden benötigt.');return;}e.target.closest('.team-row').remove();renderAll();}});teamEditor.addEventListener('change',renderAll);teamEditor.addEventListener('input',function(e){if(e.target.classList.contains('team-input'))e.target.value=e.target.value.slice(0,40);});
+[startTimeInput,durationInput,breakInput,fieldCountInput,roundBreakInput].forEach(function(el){el.addEventListener('change',renderAll);});gameModeSelect.addEventListener('change',renderAll);scoreTrackingInput.addEventListener('change',renderAll);adminCards.addEventListener('change',function(e){if(e.target.classList.contains('score-input'))updateScoreFromInput(e.target);});participantTeamFilter.addEventListener('change',applyParticipantFilter);adminTeamFilter.addEventListener('change',applyAdminFilter);participantResetBtn.addEventListener('click',function(){participantTeamFilter.value='all';applyParticipantFilter();});adminResetBtn.addEventListener('click',function(){adminTeamFilter.value='all';applyAdminFilter();});
+tournamentDateInput.addEventListener('change',function(){this.value=String(this.value||'').slice(0,10);});
+downloadPdfBtn.addEventListener('click',downloadSchedulePdf);
+$('tournamentStopwatchStart').addEventListener('click',startTournamentTimer);$('tournamentStopwatchPause').addEventListener('click',pauseTournamentTimer);$('tournamentStopwatchReset').addEventListener('click',resetTournamentTimer);
+[$('singleHomeInput'),$('singleAwayInput'),$('singleKickoffInput'),$('singleDurationInput')].forEach(function(el){el.addEventListener('input',renderSingleMatch);el.addEventListener('change',renderSingleMatch);});$('homeGoalPlus').addEventListener('click',function(){changeGoal('home',1);});$('homeGoalMinus').addEventListener('click',function(){changeGoal('home',-1);});$('awayGoalPlus').addEventListener('click',function(){changeGoal('away',1);});$('awayGoalMinus').addEventListener('click',function(){changeGoal('away',-1);});$('singleStartBtn').addEventListener('click',startSingle);$('singlePauseBtn').addEventListener('click',pauseSingle);$('singleEndBtn').addEventListener('click',endSingle);$('singleResetBtn').addEventListener('click',resetSingle);$('downloadParticipantBtn').addEventListener('click',downloadPublicSnapshot);$('downloadSingleParticipantBtn').addEventListener('click',downloadPublicSnapshot);
+
+updateTitle();renderAll();renderTournamentTimer();renderSingleMatch();switchEventMode();switchView(location.hash==='#admin'?'admin':'public');
+})();
+</script>
 <script>
 if ('serviceWorker' in navigator && location.protocol.indexOf('http')===0) {
   window.addEventListener('load', function(){
@@ -149,5 +506,4 @@ if ('serviceWorker' in navigator && location.protocol.indexOf('http')===0) {
   });
 }
 </script>
-
 </body></html>
