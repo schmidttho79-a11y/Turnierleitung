@@ -1,7 +1,7 @@
 {
-  "name": "Turnierleitung – Germania Ginnheim",
-  "short_name": "Turnierleitung",
-  "description": "Turnierplanung, Teilnehmerexport und Zeitnahme in einer App.",
+  "name": "Fußball – meind.ing",
+  "short_name": "Fußball",
+  "description": "Turnierplanung, Einzelspiele, Live-Spielstand und Zeitnahme für die Jugendmannschaft.",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
